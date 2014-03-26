@@ -1,0 +1,21 @@
+#
+# MTV's Proc My File
+#
+
+# web server
+web:            /Users/fish/Praxa/HPF/bin/gunicorn_django -c /Users/fish/Praxa/HPF/etc/gunicorn-devel.py
+
+# memcached, redis, solr
+memcached:      memcached -s /Users/fish/Praxa/HPF/var/run/memcached.sock
+redis:          redis-server /Users/fish/Praxa/HPF/etc/redis.conf
+solr:           cd /Users/fish/Praxa/HPF/local/lib/solr/example/ && java -jar start.jar
+
+# web server reloader
+#webreloader:    /Users/fish/Praxa/HPF/bin/watchmedo shell-command --patterns="*.py;*.txt;*.html;*.css;*.less;*.js;*.coffee" -R --command='kill -HUP $(cat /Users/fish/Praxa/HPF/var/run/gunicorn.pid)' /Users/fish/Praxa/HPF/instance/
+
+# django signalqueue worker
+#worker:         /Users/fish/Praxa/HPF/bin/python /Users/fish/Praxa/HPF/instance/manage.py runqueueserver -x --settings=settings --queuename=default localhost:11231
+
+# postgresql w/ local data layout
+#postgresql:     postmaster -D /Users/fish/Praxa/HPF/var/db/postgresql
+
