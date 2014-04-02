@@ -118,8 +118,6 @@ INSTALLED_APPS = (
     'south',
     'gunicorn',
     'imagekit',
-    
-    'hpf',
 )
 
 HAYSTACK_CONNECTIONS = {

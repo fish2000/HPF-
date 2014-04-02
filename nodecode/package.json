@@ -1,0 +1,29 @@
+{
+    "author": "Alexander Bohn",
+    "description": "Hampton Peter Frampton (HPF) Real-Time Socket Server",
+    
+    "keywords": [
+        "hampton", "peter", "frampton",
+        "real", "time", "socket", "server"
+    ],
+    
+    "license": "MIT",
+    "main": "socket-server.js",
+    "name": "hpf-socket-server",
+    
+    "scripts": {
+        "test": "grunt nodeunit"
+    },
+    
+    "version": "0.1.0",
+    
+    "dependencies": {
+        "sockjs": ">= 0.3.8",
+        "sockjs-client": ">= 0.1.3",
+        "node-redis": ">= 0.1.0"
+    },
+    
+    "devDependencies": {
+        
+    }
+}
