@@ -1,5 +1,8 @@
+
 // Initialize your app
-var hamptons = new Framework7({
+var sockURL = '//asio-otus.local:9001/oceanpkway',
+    oceanpkway = new SockJS(sockURL),
+    hamptons = new Framework7({
         
         onBeforePageInit: function (page) {},
         onPageInit: function (page) {},
@@ -20,8 +23,25 @@ $$$(document).on('pageInit', function (e) {
     
     if (page.name === 'messages') {
         //console.log("WE CHATTIN");
+        // $$$(".messages .message, .messages .messages-date").hide();
+        // var MESSAGES = $$$('#MESSAGES');
         $$$(".messages .message, .messages .messages-date").hide();
+        hamptons.initMessages();
     }
+});
+
+$$$('#tweet-button').on('click', function (e) {
+    var message = $$$('#id_tweeter').val(),
+        date = new Date(),
+        dateparts = date.toDateString().split(' '),
+        timeparts = date.toTimeString().split(' '),
+        day = dateparts[0],
+        time = timeparts[0].split(':').slice(0, 2).join(':');
+    
+    console.log("TWEET: ", message);
+    hamptons.addMessage({
+        text: message, day: day, time: time, type: 'sent'
+    })
 });
 
 
