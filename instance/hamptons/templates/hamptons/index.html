@@ -11,152 +11,235 @@
     <link rel="stylesheet" href="{% static 'H7/css/framework7.css' %}">
     <!-- Path to your custom app styles-->
     <link rel="stylesheet" href="{% static 'H7/css/hamptons-mobile.css' %}">
-  </head>
-  <body>
+</head>
+<body>
     <!-- Panels overlay-->
+    <div class="statusbar-overlay"></div>
     <div class="panel-overlay"></div>
     <!-- Left panel with reveal effect-->
-    <div class="panel panel-left panel-reveal">
-      <div class="content-block">
-        <p>App settings (avatar, Twitter auth, etc)</p>
-      </div>
+    <div class="panel panel-left panel-cover">
+        <div class="content-block">
+            <p>App settings (avatar, Twitter auth, etc)</p>
+        </div>
     </div>
-    
-        <div class="panel panel-right panel-cover">
-          <div class="view view-right">
-            <div class="navbar">
-              <div class="navbar-inner">
-                <div class="left"></div>
-                <div class="center sliding">This Here Framptoning</div>
-                <div class="right"></div>
-              </div>
-            </div>
-            <div class="pages navbar-through">
-              <div data-page="panel-right1" class="page">
-                <div class="page-content">
-                  <div class="content-block">
-                    <p>Chat settings <a href="#" class="close-panel">[close]</a></p>
+    <div class="panel panel-right panel-cover">
+        <div class="view view-right">
+            <!--<div class="navbar">
+                <div class="navbar-inner">
+                    <div class="left">This Here Framptoning</div>
+                    <div class="center sliding"></div>
+                    <div class="right"></div>
+                </div>
+            </div>-->
+            <div class="pages">
+                <div data-page="panel-right1" class="page">
+                    
+                    <div class="page-content">
                         
-                        
-                        <p>Tags</p>
+                        <div class="content-block-title">Who The Fuck Are You</div>
                         
                         <div class="list-block">
-                          <ul>
-                        <li><a href="panel-right2.html" class="item-link">
-                            <div class="item-content">
-                              <div class="item-inner">
-                                <div class="item-title">Right panel page 2</div>
-                              </div>
-                            </div></a></li>
-                        <li><a href="panel-right3.html" class="item-link">
-                            <div class="item-content">
-                              <div class="item-inner">
-                                <div class="item-title">Right panel page 3</div>
-                              </div>
-                            </div></a></li>
-                        </ul>
-                    </div>
-                        
-                    <p>Current users</p>
-                  </div>
-                  <div class="list-block media-list">
-                    <ul class="H7-no-edge">
-                        <li><a href="#" class="item-link item-content">
-                                      <div class="item-media"><img src="http://hhhhold.com/160/d/jpg?1" width="80"></div>
-                                      <div class="H7-no-edge item-inner">
-                                        <div class="item-title-row">
-                                          <div class="item-title">Yellow Submarine</div>
-                                          <div class="item-after">$15</div>
+                            <ul>
+                                <li>
+                                    <div class="item-content">
+                                        <div class="item-inner">
+                                            <div class="item-title label">Name</div>
+                                            <div class="item-input">
+                                                <input type="text" placeholder="Hamptonite ID">
+                                            </div>
                                         </div>
-                                        <div class="item-subtitle">Beatles</div>
-                                        <div class="item-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla sagittis tellus ut turpis condimentum, ut dignissim lacus tincidunt. Cras dolor metus, ultrices condimentum sodales sit amet, pharetra sodales eros. Phasellus vel felis tellus. Mauris rutrum ligula nec dapibus feugiat. In vel dui laoreet, commodo augue id, pulvinar lacus.</div>
-                                      </div></a></li>
-                <li><a href="#" class="item-link item-content">
-              <div class="item-media"><img src="http://hhhhold.com/160/d/jpg?1" width="80"></div>
-              <div class="H7-no-edge item-inner">
-                <div class="item-title-row">
-                  <div class="item-title">Yellow Submarine</div>
-                  <div class="item-after">$15</div>
-                </div>
-                <div class="item-subtitle">Beatles</div>
-                <div class="item-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla sagittis tellus ut turpis condimentum, ut dignissim lacus tincidunt. Cras dolor metus, ultrices condimentum sodales sit amet, pharetra sodales eros. Phasellus vel felis tellus. Mauris rutrum ligula nec dapibus feugiat. In vel dui laoreet, commodo augue id, pulvinar lacus.</div>
-              </div></a></li>
-                <li><a href="#" class="item-link item-content">
-              <div class="item-media"><img src="http://hhhhold.com/160/d/jpg?1" width="80"></div>
-              <div class="H7-no-edge item-inner">
-                <div class="item-title-row">
-                  <div class="item-title">Yellow Submarine</div>
-                  <div class="item-after">$15</div>
-                </div>
-                <div class="item-subtitle">Beatles</div>
-                <div class="item-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla sagittis tellus ut turpis condimentum, ut dignissim lacus tincidunt. Cras dolor metus, ultrices condimentum sodales sit amet, pharetra sodales eros. Phasellus vel felis tellus. Mauris rutrum ligula nec dapibus feugiat. In vel dui laoreet, commodo augue id, pulvinar lacus.</div>
-              </div></a></li>
-                      
-                    </ul>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                        
+                        <div class="content-block-title">Tags</div>
+                        
+                        <div class="list-block">
+                            <ul>
+                                <li>
+                                    <div class="item-content">
+                                        <div class="item-inner">
+                                            <div class="H7-label-seventy item-title label">#HPF (Always Included)</div>
+                                            <div class="H7-switch-no-width item-input">
+                                                <label class="label-switch">
+                                                    <input type="checkbox" checked onclick="return false;" onchange="return false;">
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="item-content">
+                                        <div class="item-inner">
+                                            <div class="H7-label-seventy item-title label">#WAB2</div>
+                                            <div class="H7-switch-no-width item-input">
+                                                <label class="label-switch">
+                                                    <input type="checkbox" checked>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                        
+                        <div class="content-block-title">Hamptonites</div>
+                        
+                        <div class="list-block media-list">
+                            <ul class="H7-no-edge">
+                                <li><a href="#" class="item-link item-content">
+                                    <div class="item-media"><img src="http://hhhhold.com/160/d/jpg?1" width="80"></div>
+                                    <div class="H7-no-edge item-inner">
+                                        <div class="item-title-row">
+                                            <div class="item-title">Joey Zook</div>
+                                            <div class="item-after">17</div>
+                                        </div>
+                                        <div class="item-subtitle">@getzook</div>
+                                    </div>
+                                </a></li>
+                                <li><a href="#" class="item-link item-content">
+                                    <div class="item-media"><img src="http://hhhhold.com/160/d/jpg?1" width="80"></div>
+                                    <div class="H7-no-edge item-inner">
+                                        <div class="item-title-row">
+                                            <div class="item-title">Troy Turnwald</div>
+                                            <div class="item-after">32</div>
+                                        </div>
+                                        <div class="item-subtitle">@TeeCoZee</div>
+                                    </div>
+                                </a></li>
+                                <li><a href="#" class="item-link item-content">
+                                    <div class="item-media"><img src="http://hhhhold.com/160/d/jpg?1" width="80"></div>
+                                    <div class="H7-no-edge item-inner">
+                                        <div class="item-title-row">
+                                            <div class="item-title">SkyMall&trade; McGee</div>
+                                            <div class="item-after">9</div>
+                                        </div>
+                                        <div class="item-subtitle">@d_millions</div>
+                                    </div>
+                                </a></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                </div><!-- page -->
+            </div><!-- pages (plural) -->
         </div>
+    </div>
+    
     <!-- Views-->
     <div class="views">
-      <!-- Your main view, should have "view-main" class-->
-      <div class="view view-main">
-        <!-- Top Navbar-->
-        <div class="navbar">
-          <div class="navbar-inner">
-            <div class="left"></div>
-            <div class="center sliding">THE HAMPTONS</div>
-            <div class="right"><a href="chat.html" class="link">Framptonia &raquo;</a></div>
-          </div>
-        </div>
-        <!-- Pages, because we need fixed-through navbar and toolbar, it has additional appropriate classes-->
-        <div class="pages navbar-through">
-          <!-- Page, data-page contains page name-->
-          <div data-page="index" class="page">
-            <!-- Scrollable page content-->
-            <div class="page-content">
-              <div class="content-block-title">Welcome To Your Awesome App</div>
-              <div class="content-block">
-                <div class="content-block-inner">
-                  <p>Couple of worlds here because your app is so awesome ;)</p>
-                  <p>Hey look! You already have two panels, here comes your <a href="#" class="open-panel">Left panel</a>
-                      and your favorite <a href="#" data-panel="right" class="open-panel">Right panel</a> is also here!</p>
+        <!-- Your main view, should have "view-main" class-->
+        <div class="view view-main">
+            <!-- Top Navbar-->
+            <div class="navbar">
+                <div class="navbar-inner">
+                    <div class="left"></div>
+                    <div class="center sliding">THE HAMPTONS</div>
+                    <div class="right"><a href="chat.html" class="link">Framptonia &raquo;</a></div>
                 </div>
-              </div>
-              <div class="content-block-title">What about simple navigation?</div>
-              <div class="list-block">
-                <ul>
-                  <li><a href="chat.html" class="item-link">
-                      <div class="item-content">
-                        <div class="item-inner">
-                          <div class="item-title">Framptonia</div>
-                        </div>
-                      </div></a></li>
-                  <li><a href="chat.html" class="item-link">
-                      <div class="item-content">
-                        <div class="item-inner">
-                          <div class="item-title">Framptonia</div>
-                        </div>
-                      </div></a></li>
-                </ul>
-              </div>
             </div>
-          </div>
+            
+            <!-- Pages, because we need fixed-through navbar and toolbar, it has additional appropriate classes-->
+            <div class="pages navbar-through">
+                <!-- Page, data-page contains page name-->
+                <div data-page="index" class="page">
+                    <!-- Scrollable page content-->
+                    <div class="page-content">
+                        <div class="content-block-title">Welcome To Your Awesome App</div>
+                        <div class="content-block">
+                            <div class="content-block-inner">
+                                <p>Couple of worlds here because your app is so awesome ;)</p>
+                                <p>Hey look! You already have two panels,
+                                    here comes your <a href="#" class="open-panel">Left panel</a>
+                                    and your favorite <a href="#" data-panel="right" class="open-panel">Right panel</a>
+                                    is also here!</p>
+                                
+                            </div>
+                        </div>
+                        <div class="content-block-title">What about simple navigation?</div>
+                        
+                        <div class="list-block">
+                            <ul>
+                                <li><a href="chat.html" class="item-link">
+                                    <div class="item-content">
+                                        <div class="item-inner">
+                                            <div class="item-title">Framptonia</div>
+                                        </div>
+                                    </div>
+                                </a></li>
+                                <li><a href="chat.html" class="item-link">
+                                    <div class="item-content">
+                                        <div class="item-inner">
+                                            <div class="item-title">Framptonia</div>
+                                        </div>
+                                    </div>
+                                </a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Bottom Toolbar-->
+            <div class="toolbar">
+                <div class="toolbar-inner">
+                    <a href="#" class="open-panel"><i class="icon icon-bars-blue"></i></a>
+                    <a href="chat.html" data-popover=".popover-tweeter" class="open-popover link"><i class="icon icon-form-comment"></i></a>
+                </div>
+            </div>
+
         </div>
-        
-        <!-- Bottom Toolbar-->
-        <div class="toolbar">
-            <div class="toolbar-inner"><a href="#" class="open-panel"><i class="icon icon-bars-blue"></i></a><a href="#" class="open-panel" data-panel="right"><i class="icon icon-bars-blue"></i></a></div>
-        </div>
-        
-        
-        
-        
-      </div>
     </div>
+    
+    <!-- TWEETER -->
+    <!--<div class="popup">
+        <div class="view navbar-fixed">
+            <div class="page">
+                <div class="navbar">
+                    <div class="navbar-inner">
+                        <div class="center" style="left: 35px;">Popup Title</div>
+                        <div class="right"><a href="#" class="link close-popup">Done</a></div>
+                    </div>
+                </div>
+                <div class="page-content">
+                    <div class="content-block">
+                        <p>Here comes popup. You can put here anything, even independent view with its own navigation. Also not, that by default popup looks a bit different on iPhone/iPod and iPad, on iPhone it is fullscreen.</p>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse faucibus mauris leo, eu bibendum neque congue non. Ut leo mauris, eleifend eu commodo a, egestas ac urna. Maecenas in lacus faucibus, viverra ipsum pulvinar, molestie arcu. Etiam lacinia venenatis dignissim. Suspendisse non nisl semper tellus malesuada suscipit eu et eros. Nulla eu enim quis quam elementum vulputate. Mauris ornare consequat nunc viverra pellentesque. Aenean semper eu massa sit amet aliquam. Integer et neque sed libero mollis elementum at vitae ligula. Vestibulum pharetra sed libero sed porttitor. Suspendisse a faucibus lectus.</p>
+                        <p>Duis ut mauris sollicitudin, venenatis nisi sed, luctus ligula. Phasellus blandit nisl ut lorem semper pharetra. Nullam tortor nibh, suscipit in consequat vel, feugiat sed quam. Nam risus libero, auctor vel tristique ac, malesuada ut ante. Sed molestie, est in eleifend sagittis, leo tortor ullamcorper erat, at vulputate eros sapien nec libero. Mauris dapibus laoreet nibh quis bibendum. Fusce dolor sem, suscipit in iaculis id, pharetra at urna. Pellentesque tempor congue massa quis faucibus. Vestibulum nunc eros, convallis blandit dui sit amet, gravida adipiscing libero.</p>
+                        <p>Morbi posuere ipsum nisl, accumsan tincidunt nibh lobortis sit amet. Proin felis lorem, dictum vel nulla quis, lobortis dignissim nunc. Pellentesque dapibus urna ut imperdiet mattis. Proin purus diam, accumsan ut mollis ac, vulputate nec metus. Etiam at risus neque. Fusce tincidunt, risus in faucibus lobortis, diam mi blandit nunc, quis molestie dolor tellus ac enim. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse interdum turpis a velit vestibulum pharetra. Vivamus blandit dapibus cursus. Aenean lorem augue, vehicula in eleifend ut, imperdiet quis felis.</p>
+                        <p>Duis non erat vel lacus consectetur ultricies. Sed non velit dolor. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Proin vel varius mi, a tristique ante. Vivamus eget nibh ac elit tempor bibendum sit amet vitae velit. Proin sit amet dapibus nunc, non porta tellus. Fusce interdum vulputate imperdiet. Sed faucibus metus at pharetra fringilla. Fusce mattis orci et massa congue, eget dapibus ante rhoncus. Morbi semper sed tellus vel dignissim. Cras vestibulum, sapien in suscipit tincidunt, lectus mi sodales purus, at egestas ligula dui vel erat. Etiam cursus neque eu lectus eleifend accumsan vitae non leo. Aliquam scelerisque nisl sed lacus suscipit, ac consectetur sapien volutpat. Etiam nulla diam, accumsan ut enim vel, hendrerit venenatis sem. Vestibulum convallis justo vitae pharetra consequat. Mauris sollicitudin ac quam non congue.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>-->
+    
+    <div class="popover popover-tweeter" style="display: none; top: 449px; left: 1136px; width: 96%">
+        <div class="popover-angle on-bottom" style="left: 235.5px;"></div>
+            <div class="popover-inner">
+                <div class="list-block">
+                    <ul>
+                        <li class="align-top">
+                            <div class="H7-no-left-pad item-content">
+                                <div class="item-inner">
+                                    <!--<div class="item-title label">Textarea</div>-->
+                                    <div class="item-input">
+                                        <textarea id="id_tweeter" name="tweeter">@getzook @teecozee @d_millions @peterframpton YO DOGG #HPF</textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/sockjs-client/0.3.4/sockjs.min.js"></script>
     <script type="text/javascript" src="{% static 'H7/js/framework7.js' %}"></script>
     <script type="text/javascript" src="{% static 'H7/js/hamptons-mobile.js' %}"></script>
-  </body>
+    
+    <div class="modal-overlay"></div>
+</body>
 </html>
