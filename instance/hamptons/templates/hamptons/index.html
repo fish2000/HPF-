@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
-    <title>My App</title>
+    <title>THE HAMPTONS</title>
     <!-- Path to Framework7 Library CSS-->
     <link rel="stylesheet" href="{% static 'H7/css/framework7.css' %}">
     <!-- Path to your custom app styles-->
@@ -18,15 +18,87 @@
     <!-- Left panel with reveal effect-->
     <div class="panel panel-left panel-reveal">
       <div class="content-block">
-        <p>Left panel content goes here</p>
+        <p>App settings (avatar, Twitter auth, etc)</p>
       </div>
     </div>
-    <!-- Right panel with cover effect-->
-    <div class="panel panel-right panel-cover">
-      <div class="content-block">
-        <p>Right panel content goes here</p>
-      </div>
-    </div>
+    
+        <div class="panel panel-right panel-cover">
+          <div class="view view-right">
+            <div class="navbar">
+              <div class="navbar-inner">
+                <div class="left"></div>
+                <div class="center sliding">This Here Framptoning</div>
+                <div class="right"></div>
+              </div>
+            </div>
+            <div class="pages navbar-through">
+              <div data-page="panel-right1" class="page">
+                <div class="page-content">
+                  <div class="content-block">
+                    <p>Chat settings <a href="#" class="close-panel">[close]</a></p>
+                        
+                        
+                        <p>Tags</p>
+                        
+                        <div class="list-block">
+                          <ul>
+                        <li><a href="panel-right2.html" class="item-link">
+                            <div class="item-content">
+                              <div class="item-inner">
+                                <div class="item-title">Right panel page 2</div>
+                              </div>
+                            </div></a></li>
+                        <li><a href="panel-right3.html" class="item-link">
+                            <div class="item-content">
+                              <div class="item-inner">
+                                <div class="item-title">Right panel page 3</div>
+                              </div>
+                            </div></a></li>
+                        </ul>
+                    </div>
+                        
+                    <p>Current users</p>
+                  </div>
+                  <div class="list-block media-list">
+                    <ul class="H7-no-edge">
+                        <li><a href="#" class="item-link item-content">
+                                      <div class="item-media"><img src="http://hhhhold.com/160/d/jpg?1" width="80"></div>
+                                      <div class="H7-no-edge item-inner">
+                                        <div class="item-title-row">
+                                          <div class="item-title">Yellow Submarine</div>
+                                          <div class="item-after">$15</div>
+                                        </div>
+                                        <div class="item-subtitle">Beatles</div>
+                                        <div class="item-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla sagittis tellus ut turpis condimentum, ut dignissim lacus tincidunt. Cras dolor metus, ultrices condimentum sodales sit amet, pharetra sodales eros. Phasellus vel felis tellus. Mauris rutrum ligula nec dapibus feugiat. In vel dui laoreet, commodo augue id, pulvinar lacus.</div>
+                                      </div></a></li>
+                <li><a href="#" class="item-link item-content">
+              <div class="item-media"><img src="http://hhhhold.com/160/d/jpg?1" width="80"></div>
+              <div class="H7-no-edge item-inner">
+                <div class="item-title-row">
+                  <div class="item-title">Yellow Submarine</div>
+                  <div class="item-after">$15</div>
+                </div>
+                <div class="item-subtitle">Beatles</div>
+                <div class="item-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla sagittis tellus ut turpis condimentum, ut dignissim lacus tincidunt. Cras dolor metus, ultrices condimentum sodales sit amet, pharetra sodales eros. Phasellus vel felis tellus. Mauris rutrum ligula nec dapibus feugiat. In vel dui laoreet, commodo augue id, pulvinar lacus.</div>
+              </div></a></li>
+                <li><a href="#" class="item-link item-content">
+              <div class="item-media"><img src="http://hhhhold.com/160/d/jpg?1" width="80"></div>
+              <div class="H7-no-edge item-inner">
+                <div class="item-title-row">
+                  <div class="item-title">Yellow Submarine</div>
+                  <div class="item-after">$15</div>
+                </div>
+                <div class="item-subtitle">Beatles</div>
+                <div class="item-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla sagittis tellus ut turpis condimentum, ut dignissim lacus tincidunt. Cras dolor metus, ultrices condimentum sodales sit amet, pharetra sodales eros. Phasellus vel felis tellus. Mauris rutrum ligula nec dapibus feugiat. In vel dui laoreet, commodo augue id, pulvinar lacus.</div>
+              </div></a></li>
+                      
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
     <!-- Views-->
     <div class="views">
       <!-- Your main view, should have "view-main" class-->
@@ -34,13 +106,13 @@
         <!-- Top Navbar-->
         <div class="navbar">
           <div class="navbar-inner">
-            <div class="left"><a href="#" class="link">Left Link</a></div>
-            <div class="center sliding">Awesome App</div>
-            <div class="right"><a href="#" class="link">Right Link</a></div>
+            <div class="left"></div>
+            <div class="center sliding">THE HAMPTONS</div>
+            <div class="right"><a href="chat.html" class="link">Framptonia &raquo;</a></div>
           </div>
         </div>
         <!-- Pages, because we need fixed-through navbar and toolbar, it has additional appropriate classes-->
-        <div class="pages navbar-through toolbar-through">
+        <div class="pages navbar-through">
           <!-- Page, data-page contains page name-->
           <div data-page="index" class="page">
             <!-- Scrollable page content-->
@@ -56,16 +128,16 @@
               <div class="content-block-title">What about simple navigation?</div>
               <div class="list-block">
                 <ul>
-                  <li><a href="page1.html" class="item-link">
+                  <li><a href="chat.html" class="item-link">
                       <div class="item-content">
                         <div class="item-inner">
-                          <div class="item-title">Page 1</div>
+                          <div class="item-title">Framptonia</div>
                         </div>
                       </div></a></li>
-                  <li><a href="page2.html" class="item-link">
+                  <li><a href="chat.html" class="item-link">
                       <div class="item-content">
                         <div class="item-inner">
-                          <div class="item-title">Page 2</div>
+                          <div class="item-title">Framptonia</div>
                         </div>
                       </div></a></li>
                 </ul>
@@ -73,15 +145,18 @@
             </div>
           </div>
         </div>
+        
         <!-- Bottom Toolbar-->
         <div class="toolbar">
-          <div class="toolbar-inner"><a href="#" class="link">Link 1</a><a href="#" class="link">Link 2</a></div>
+            <div class="toolbar-inner"><a href="#" class="open-panel"><i class="icon icon-bars-blue"></i></a><a href="#" class="open-panel" data-panel="right"><i class="icon icon-bars-blue"></i></a></div>
         </div>
+        
+        
+        
+        
       </div>
     </div>
-    <!-- Path to Framework7 Library JS-->
     <script type="text/javascript" src="{% static 'H7/js/framework7.js' %}"></script>
-    <!-- Path to your app js-->
     <script type="text/javascript" src="{% static 'H7/js/hamptons-mobile.js' %}"></script>
   </body>
 </html>
