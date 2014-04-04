@@ -14,7 +14,7 @@ SUPERVISOR_INIT_DEPLOY = etc/$(INSTANCE_NAME).supervisord-init.sh
 
 
 deploy: deploy-git
-deploy-all: deploy-git deploy-uwsgi deploy-nginx
+deploy-all: deploy-git deploy-uwsgi deploy-nginx deploy-supervisor
 
 # HEY GUYS!
 # GETTING MOST OF THIS 'DEPLOY' STUFF WORKING WILL TAKE SOME DOING ON YOUR PART.
@@ -32,6 +32,10 @@ deploy-uwsgi:
 deploy-nginx:
 		# NEEDS SUDOING
 		sudo cp $(NGINX_DEPLOY) $(NGINX_CONF) && sudo service nginx restart
+
+deploy-supervisor:
+		# NEEDS SUDOING
+		sudo service superviord restart
 
 deploy-supervisor-init:
 		test -r $(SUPERVISOR_INIT) && cp $(SUPERVISOR_INIT) $(INSTANCE_TMP)/$(INSTANCE_NAME).supervisor-init.sh.BACKUP
