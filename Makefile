@@ -36,9 +36,10 @@ deploy-nginx:
 deploy-supervisor-init:
 		test -r $(SUPERVISOR_INIT) && cp $(SUPERVISOR_INIT) $(INSTANCE_TMP)/$(INSTANCE_NAME).supervisor-init.sh.BACKUP
 		sudo cp $(SUPERVISOR_INIT_DEPLOY) $(SUPERVISOR_INIT)
-
-
-all: update build
+		sudo chmod +x $(SUPERVISOR_INIT)
+		sudo update-rc.d supervisord defaults
+		# SUPERVISORD CAN NOW BE STARTED:
+		# sudo service supervisord start
 
 # SOLR_SCHEMA gets assigned when `env_preinit` runs
 schema-generate: $(SOLR_STOPWORDS_COPY_TO)
@@ -74,5 +75,5 @@ clean-pyc:
 clean-all-pyc:
 		find $(VIRTUAL_ENV) -name \*.pyc -print -delete
 
-.PHONY: update build schema all distclean clean
+.PHONY: schema all distclean clean
 
