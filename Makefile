@@ -14,7 +14,7 @@ SUPERVISOR_INIT_DEPLOY = etc/$(INSTANCE_NAME).supervisord-init.sh
 
 
 deploy: deploy-git
-deploy-all: deploy-git deploy-uwsgi deploy-nginx deploy-supervisor
+deploy-all: deploy-git deploy-uwsgi deploy-nginx
 
 # HEY GUYS!
 # GETTING MOST OF THIS 'DEPLOY' STUFF WORKING WILL TAKE SOME DOING ON YOUR PART.
