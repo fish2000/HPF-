@@ -35,7 +35,7 @@ deploy-nginx:
 
 deploy-supervisor:
 		# NEEDS SUDOING
-		sudo service superviord restart
+		sudo service supervisord restart
 
 deploy-supervisor-init:
 		test -r $(SUPERVISOR_INIT) && cp $(SUPERVISOR_INIT) $(INSTANCE_TMP)/$(INSTANCE_NAME).supervisor-init.sh.BACKUP
