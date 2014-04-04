@@ -18,13 +18,13 @@
 
 # PATH should only include /usr/* if it runs after the mountnfs.sh script
 PRAXON=/Users/fish/Praxa/HPF # viron will sub this
-PATH="$PRAXON/bin:/usr/local/bin:/sbin:/usr/sbin:/bin:/usr/bin" # viron will NOT sub this
+PATH="${PRAXON}/bin:/usr/local/bin:/sbin:/usr/sbin:/bin:/usr/bin" # viron will NOT sub this
 DESC="The HPF supervisord" # viron will sub this
 NAME=supervisord
-DAEMON="$PRAXON/bin/$NAME" # viron will NOT sub this
+DAEMON="${PRAXON}/bin/${NAME}" # viron will NOT sub this
 DAEMON_ARGS="-n -c $PRAXON/etc/supervisord-deploy.conf" # viron REALLY SHOULDN'T SUB THIS
 #PIDFILE=/var/run/$NAME.pid # viron will not sub this
-PIDFILE=$PRAXON/var/run/supervisord.pid # viron will not sub this
+PIDFILE=${PRAXON}/var/run/supervisord.pid # viron will not sub this
 SCRIPTNAME=/etc/init.d/$NAME # viron will not sub this
 
 # Exit if the package is not installed
