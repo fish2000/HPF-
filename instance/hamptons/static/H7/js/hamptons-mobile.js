@@ -50,3 +50,12 @@ $$$('#tweeter-button').on('touchend', function (e) {
     console.log("FOCUS UP BOY");
     hamptons.$('#id_tweeter').trigger('click');
 });*/
+
+/// get rid of browser bar
+window.addEventListener("load",function() {
+	// Set a timeout...
+	setTimeout(function(){
+		// Hide the address bar!
+		window.scrollTo(0, 1);
+	}, 0);
+});
