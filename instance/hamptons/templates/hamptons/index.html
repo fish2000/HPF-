@@ -45,7 +45,9 @@
                                         <div class="item-inner">
                                             <div class="item-title label">Name</div>
                                             <div class="item-input">
-                                                <input type="text" placeholder="Hamptonite ID">
+                                                <input type="text"
+                                                    placeholder="Hamptonite ID"
+                                                    value="{{ user.username }}">
                                             </div>
                                         </div>
                                     </div>
@@ -63,7 +65,9 @@
                                             <div class="H7-label-seventy item-title label">#HPF (Always Included)</div>
                                             <div class="H7-switch-no-width item-input">
                                                 <label class="label-switch">
-                                                    <input type="checkbox" checked onclick="return false;" onchange="return false;">
+                                                    <input type="checkbox" checked
+                                                        onclick="return false;"
+                                                        onchange="return false;">
                                                 </label>
                                             </div>
                                         </div>
@@ -229,6 +233,10 @@
         </div>
     </div>
     
+    <script>
+        window.SETTINGS = {};
+        window.SETTINGS['user'] = '{{ user.username }}';
+    </script>
     <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/sockjs-client/0.3.4/sockjs.min.js"></script>
     <script type="text/javascript" src="{% static 'H7/js/duckpunch.js' %}"></script>
     <script type="text/javascript" src="{% static 'H7/js/framework7.js' %}"></script>

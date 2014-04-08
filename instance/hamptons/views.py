@@ -2,22 +2,18 @@
 import mimetypes
 import simplejson
 
-# try:
-#     from cStringIO import StringIO
-# except IOError:
-#     from StringIO import StringIO
-
 from os.path import basename
 from functools import wraps
 
-from django.http import HttpResponse, HttpResponseNotFound
+from django.http import HttpResponse, HttpResponseRedirect, HttpResponseNotFound
 from django.core.exceptions import ObjectDoesNotExist
 from django.template import RequestContext, TemplateDoesNotExist
 from django.template.loader import get_template
+from django.core.urlresolvers import reverse
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.cache import never_cache
 from django.views.decorators.cache import cache_page
-#from django.utils.safestring import mark_for_escaping
+#from django.contrib.auth.decorators import login_required
 
 from hamptons.conf import settings
 from hamptons.problem import Problem
@@ -195,8 +191,16 @@ def download(f):
     # further decorate function before returning
     return cache_wrap(wrapper)
 
+def mobile_login(request):
+    if request.user.is_authenticated():
+        return HttpResponseRedirect(reverse('hamptons:mobile', kwargs=dict(document_id='index.html')))
+    tmpl = get_template('hamptons/_login.html')
+    return HttpResponse(tmpl.render(RequestContext(request)))
+
 def mobile(request, document_id='index.html'):
     """ Just barf out the F7 template """
+    if not request.user.is_authenticated():
+        return HttpResponseRedirect(reverse('hamptons:mobile_login'))
     try:
         tmpl = get_template('hamptons/%s' % document_id)
     except TemplateDoesNotExist:

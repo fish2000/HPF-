@@ -205,12 +205,6 @@ SQ_QUEUES = {
         'OPTIONS': dict(
             app_label='signalqueue', modl_name='EnqueuedSignal'),
     },
-    #'redis': {
-    #    'ENGINE': 'signalqueue.worker.backends.RedisSetQueue',
-    #    'INTERVAL': 30, # 1/3 sec
-    #    'OPTIONS': dict(
-    #        port=0, unix_socket_path=virtualpath('var', 'run', "/redis.sock")),
-    #},
 }
 
 SQ_RUNMODE = 'SQ_ASYNC_REQUEST'
