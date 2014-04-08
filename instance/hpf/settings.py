@@ -113,7 +113,6 @@ AUTHENTICATION_BACKENDS = (
     "allauth.account.auth_backends.AuthenticationBackend",
 )
 
-
 ROOT_URLCONF = 'hpf.urls'
 WSGI_APPLICATION = 'hpf.wsgi.application'
 
@@ -142,6 +141,17 @@ INSTALLED_APPS = (
     
     'hamptons',
 )
+
+
+LOGIN_REDIRECT_URL = "/hamptons/mobile/index.html"
+ACCOUNT_AUTHENTICATION_METHOD = "username"
+ACCOUNT_EMAIL_REQUIRED = False
+ACCOUNT_EMAIL_VERIFICATION = "none"
+ACCOUNT_LOGOUT_REDIRECT_URL = LOGIN_REDIRECT_URL
+ACCOUNT_USER_DISPLAY = lambda user: "@%s" % user.username
+ACCOUNT_USERNAME_MIN_LENGTH = 2
+ACCOUNT_USERNAME_BLACKLIST = ['fish']
+SOCIALACCOUNT_QUERY_EMAIL = True
 
 HAYSTACK_CONNECTIONS = {
     'default': {
