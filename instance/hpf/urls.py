@@ -16,6 +16,9 @@ urlpatterns = patterns('',
             namespace='hamptons',
             app_name='hamptons')),
 
+    url(r'^accounts/',
+        include('allauth.urls')),
+    
     url(r'^admin/',
         include(admin.site.urls)),
 

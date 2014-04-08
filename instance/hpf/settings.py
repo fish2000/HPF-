@@ -43,7 +43,7 @@ if DEPLOYED:
 
 TIME_ZONE = 'America/New_York'
 LANGUAGE_CODE = 'en-us'
-SITE_ID = 1
+SITE_ID = 1 # must be this (verbatim) for allauth
 USE_I18N = False
 USE_L10N = False
 USE_TZ = False
@@ -98,7 +98,18 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     #"django.core.context_processors.i18n", this is AMERICA
     "django.core.context_processors.media",
     "django.core.context_processors.static",
+    # ALL-AUTH ALL THE WAY DOWN
+    "allauth.account.context_processors.account",
+    "allauth.socialaccount.context_processors.socialaccount",
 )
+
+AUTHENTICATION_BACKENDS = (
+    # Django auth backend for vanilla admin logins with usernames
+    "django.contrib.auth.backends.ModelBackend",
+    # All-auth backend/backends
+    "allauth.account.auth_backends.AuthenticationBackend",
+)
+
 
 ROOT_URLCONF = 'hpf.urls'
 WSGI_APPLICATION = 'hpf.wsgi.application'
@@ -107,7 +118,13 @@ INSTALLED_APPS = (
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
+    
     'django.contrib.sites',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.twitter',
+    
     'django.contrib.messages',
     'django.contrib.staticfiles',
     
