@@ -1,6 +1,6 @@
 /*jslint ass: true, browser: true, devel: true, laxbreak: true, nomen: true, sloppy: true, sub: true, white: true */
 
-(function (underscore, document, undefined) {
+(function (underscore, hashes, document, undefined) {
     
     var hex_decode_regex = /^(#|0?x|\\x|%)([0-9a-f]{1,16})/i,
         thousands_regex = /(\d+)(\d{3})/,
@@ -80,7 +80,7 @@
                 : NaN;
         };
     })(hex_decode_regex);
-
+    
     String.prototype.toInteger = String.prototype.toInt = function () {
         return parseInt(this.normalize(), 10);
     };
@@ -116,7 +116,7 @@
             );
         };
     })(/{(\d+)}/g);
-
+    
     String.prototype.test = function () {
         /// Test a string with a regex
         var args = Array.prototype.slice.call(arguments),
@@ -170,7 +170,7 @@
                     : new RegExp("(" + arg + ")+$");
             return this.replace(chomper, '');
         };
-    })(/(\n|\r)+$/);
+    })(/(\s|\n|\r)+$/);
 
     String.prototype.isalpha = String.prototype.isAlpha = (function (regex) {
         return function () { return regex.test(this); };
@@ -209,6 +209,37 @@
             .toString(16)
             .prefixwith(arguments[0] || "#");
     };
+
+    if (hashes !== undefined) {
+        String.prototype.signature = (function (SHA1, undefined) {
+            return function (key_secret, salt) {
+                var sha1 = new SHA1({ utf8: false, b64pad: ' ' }),
+                    key = sha1.raw(salt + key_secret),
+                    hmac64 = sha1.setPad(' ').b64_hmac(key, this).chomp();
+                return hmac64;
+            };
+        })(hashes.SHA1);
+        
+        String.prototype.sign = function () {
+            var key_secret = arguments[0] || 'YO DOGG',
+                key_salt = arguments[1] || 'django.core.signing.Signer',
+                sep = arguments[2] || ':',
+                salt = key_salt + 'signer',
+                signature = this.signature(key_secret, salt);
+            return (this + sep + signature);
+        };
+        
+        String.prototype.unsign = function () {
+            var key_secret = arguments[0] || 'YO DOGG',
+                key_salt = arguments[1] || 'django.core.signing.Signer',
+                sep = arguments[2] || ':',
+                salt = key_salt + 'signer',
+                split = this.split(sep),
+                orig = split[0], sig_test = split[1],
+                signature = orig.signature(key_secret, salt);
+            return sig_test == signature ? orig : false;
+        };
+    }
 
     Number.prototype.addcommas = Number.prototype.addCommas = (function (regex) {
         return function () {
@@ -441,4 +472,4 @@
         return past31days;
     };
     
-})(window['_'], document);
+})(window['_'], window['Hashes'], document);

@@ -70,7 +70,8 @@ sandpiper.onmessage = function (e) {
         payload = JSON.parse(e.data),
         op = payload['op'].lower(),
         user = payload['user'].lower(),
-        value = payload['value'].lower();
+        value = payload['value'].lower(),
+        from_op = '';
     
     console.log("SANDPIPER: message received");
     //console.log("SANDPIPER: data = ", e.data);
@@ -83,12 +84,16 @@ sandpiper.onmessage = function (e) {
             console.log("USER: ", user);
             console.log("VALUE: ", value);
             
-            if (payload['from_op'].lower() === 'open') {
+            from_op = payload['from_op'].lower();
+            
+            if (from_op === 'open') {
                 sandpiper.send(JSON.stringify({
                     op: 'auth',
                     user: window.SETTINGS['username'],
                     value: 'YO DOGG',
                 }));
+            } else if (from_op === 'auth') {
+                
             }
             
             break;
