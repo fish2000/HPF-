@@ -1,6 +1,15 @@
 # Django settings for the HPF project.
 
-import platform
+import platform, os, hashlib
+virtualpath = lambda *pths: os.path.join('/Users/fish/Praxa/HPF', *pths)
+hasher = lambda token: hashlib.sha256(token).hexdigest()
+
+secret = "4ec705d96b2fc89fa946944881897a6e01269b1ffe1a7776e6f676aeeedd1871"
+if os.path.isfile(virtualpath('.password')):
+    with open(virtualpath('.password'), 'rb') as passfile:
+        password = passfile.read()
+        secret = hasher(password)
+
 BASE_HOSTNAME = platform.node().lower()
 DEPLOYED = not BASE_HOSTNAME.endswith('.local')
 
@@ -8,22 +17,39 @@ DEBUG = not DEPLOYED
 TEMPLATE_DEBUG = DEBUG
 ADMINS = ()
 MANAGERS = ADMINS
+SECRET_KEY = secret
 
 if DEPLOYED:
     ALLOWED_HOSTS = ['*']
 
-import os
-virtualpath = lambda *pths: os.path.join('/Users/fish/Praxa/HPF', *pths)
+pooled_database = {
+    'NAME': 'hpf',
+    'ENGINE': 'django_postgrespool',
+    'USER': 'hpf',
+    'PASSWORD': password,
+    'OPTIONS': dict(autocommit=True),
+}
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': virtualpath('var', 'db', 'dev.db'),
-        'USER': '',
-        'PASSWORD': '',
-        'HOST': '',
-        'PORT': '',
-    }
+default_database = {
+    'NAME': 'hpf',
+    'ENGINE': 'django.db.backends.postgresql_psycopg2',
+    'USER': 'hpf',
+    'PASSWORD': password,
+    'OPTIONS': dict(autocommit=True),
+}
+
+if DEPLOYED:
+    default_database.update({
+        'HOST': 'localhost',
+        'PORT': 5432 })
+
+DATABASES = { 'default': default_database }
+SOUTH_DATABASE_ADAPTERS = { 'default': 'south.db.postgresql_psycopg2' }
+
+DATABASE_POOL_ARGS = {
+    'max_overflow': 10,
+    'pool_size': 20,
+    'recycle': 300
 }
 
 memcache = {
@@ -62,9 +88,6 @@ STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
     'django.contrib.staticfiles.finders.DefaultStorageFinder',
 )
-
-# Make this unique, and don't share it with anybody.
-SECRET_KEY = "4ec705d96b2fc89fa946944881897a6e01269b1ffe1a7776e6f676aeeedd1871"
 
 TEMPLATE_LOADERS = (
     'django.template.loaders.filesystem.Loader',
@@ -115,7 +138,7 @@ AUTHENTICATION_BACKENDS = (
 
 ROOT_URLCONF = 'hpf.urls'
 WSGI_APPLICATION = 'hpf.wsgi.application'
-#AUTH_USER_MODEL = 'hamptons.Hamptonian'
+AUTH_USER_MODEL = 'hamptons.Hamptonian'
 
 INSTALLED_APPS = (
     'django.contrib.auth',
@@ -135,7 +158,6 @@ INSTALLED_APPS = (
     'django_admin_bootstrapped',
     'django.contrib.admin',
     
-    'haystack',
     'south',
     'gunicorn',
     'imagekit',
@@ -155,13 +177,6 @@ ACCOUNT_USER_DISPLAY = lambda user: "@%s" % user.username
 ACCOUNT_USERNAME_MIN_LENGTH = 2
 ACCOUNT_USERNAME_BLACKLIST = ['fish']
 SOCIALACCOUNT_QUERY_EMAIL = True
-
-HAYSTACK_CONNECTIONS = {
-    'default': {
-        'ENGINE': 'haystack.backends.solr_backend.SolrEngine',
-        'URL': 'http://127.0.0.1:8983/solr',
-    },
-}
 
 LOGGING = {
     'version': 1,
@@ -188,11 +203,6 @@ LOGGING = {
             'handlers': ['console'],
             'propagate': False,
         },
-        'raven': {
-            'level': 'DEBUG',
-            'handlers': ['console'],
-            'propagate': False,
-        },
         'elasticsearch.trace': {
             'level': 'DEBUG',
             'handlers': ['console'],
@@ -200,19 +210,3 @@ LOGGING = {
         },
     },
 }
-
-SQ_QUEUES = {
-    'default': {
-        'ENGINE': 'signalqueue.worker.backends.DatabaseQueueProxy',
-        'INTERVAL': 30, # 1/3 sec
-        'OPTIONS': dict(
-            app_label='signalqueue', modl_name='EnqueuedSignal'),
-    },
-}
-
-SQ_RUNMODE = 'SQ_ASYNC_REQUEST'
-SQ_WORKER_PORT = 11231
-
-import platform
-BASE_HOSTNAME = platform.node().lower()
-

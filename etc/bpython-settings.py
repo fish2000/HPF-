@@ -8,8 +8,9 @@ import os
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'hpf.settings')
 
 from django.conf import settings
-from django.contrib.auth.models import User
-fish = User.objects.get(username='fish')
+#from django.contrib.auth.models import User
+from hamptons.models import Hamptonian
+fish = Hamptonian.objects.get(username='fish')
 
 ## web scraping stuff
 from bs4 import BeautifulSoup
