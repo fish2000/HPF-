@@ -36,6 +36,7 @@ class Command(BaseCommand):
         
         from tornado.ioloop import IOLoop
         from tornado.httpserver import HTTPServer
+        from tornado.log import enable_pretty_logging
         from sandpiper.conf import settings
         from sandpiper.server import application
         
@@ -53,7 +54,9 @@ class Command(BaseCommand):
                               addr=settings.SANDPIPER_ADDRESS,
                               port=settings.SANDPIPER_PORT,
                               quit_command=self.quit_command)))
-    
+        
+        enable_pretty_logging()
+        
         try:
             IOLoop.instance().start()
     

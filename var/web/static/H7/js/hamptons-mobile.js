@@ -1,7 +1,17 @@
 
 // Initialize your app
-var sockURL = '//asio-otus.local:9001/oceanpkway',
-    oceanpkway = new SockJS(sockURL),
+var sockURL = '//asio-otus.local:9001/sandpiper',
+    sandpiper = new SockJS(sockURL),
+    framp = function (frampton) {
+        return function (message) {
+            return {
+                op: 'twit',
+                user: window.SETTINGS['username'],
+                frampton: frampton,
+                value: message
+            };
+        };
+    },
     hamptons = new Framework7({
         
         onBeforePageInit: function (page) {},
@@ -27,7 +37,7 @@ $$$(document).on('pageInit', function (e) {
         // $$$(".messages .message, .messages .messages-date").hide();
         // var MESSAGES = $$$('#MESSAGES');
         $$$(".messages .message, .messages .messages-date").hide();
-        hamptons.initMessages();
+        //hamptons.initMessages();
     }
 });
 
@@ -40,32 +50,63 @@ $$$('#tweet-button').on('click', function (e) {
         time = timeparts[0].split(':').slice(0, 2).join(':');
     
     console.log("TWEET: ", message);
-    oceanpkway.send(message);
+    sandpiper.send(message);
     hamptons.addMessage({
         text: message, day: day, time: time, type: 'sent'
     });
 });
 
-oceanpkway.onopen = function () {
-    console.log("OCEANPKWAY: connected");
+sandpiper.onopen = function () {
+    console.log("SANDPIPER: connected");
 };
 
-oceanpkway.onmessage = function (e) {
+sandpiper.onmessage = function (e) {
     var message = e.data,
         date = new Date(),
         dateparts = date.toDateString().split(' '),
         timeparts = date.toTimeString().split(' '),
         day = dateparts[0],
-        time = timeparts[0].split(':').slice(0, 2).join(':');
-    console.log("OCEANPKWAY: message received");
-    console.log("OCEANPKWAY: data = ", e.data);
+        time = timeparts[0].split(':').slice(0, 2).join(':'),
+        payload = JSON.parse(e.data),
+        op = payload['op'].lower(),
+        user = payload['user'].lower(),
+        value = payload['value'].lower();
+    
+    console.log("SANDPIPER: message received");
+    //console.log("SANDPIPER: data = ", e.data);
+    
+    switch (op) {
+        
+        /// OP: fdbk / "Feedback" / additional: [from_op]
+        case 'fdbk':
+            console.log("OP: <<fdbk>>");
+            console.log("USER: ", user);
+            console.log("VALUE: ", value);
+            
+            if (payload['from_op'].lower() === 'open') {
+                sandpiper.send(JSON.stringify({
+                    op: 'auth',
+                    user: window.SETTINGS['username'],
+                    value: 'YO DOGG',
+                }));
+            }
+            
+            break;
+        
+        default:
+            console.log("UNKNOWN OP: ", op.upper());
+            console.log("USER: ", user);
+            console.log("VALUE: ", value);
+            break;
+    }
+    
     hamptons.addMessage({
         text: message, day: day, time: time, type: 'received'
     });
 };
 
-oceanpkway.onclose = function () {
-    console.log("OCEANPKWAY: disconnected");
+sandpiper.onclose = function () {
+    console.log("SANDPIPER: disconnected");
 };
 
 /*

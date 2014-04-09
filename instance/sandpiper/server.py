@@ -109,7 +109,7 @@ class MessageHandler(conn.SockJSConnection):
     def _get_signing_key(self, username, session_token):
         self.username = username
         self.send(json.dumps(dict(
-            op='fdbk', from_op='auth', user=self.user_name, value=self.connection_id)))
+            op='fdbk', from_op='auth', user=self.username, value=self.connection_id)))
     
     def _error(self, error_message):
         self.send(json.dumps(dict(
@@ -123,14 +123,13 @@ class MessageHandler(conn.SockJSConnection):
         # Send it to user (TODO: generate signing key)
         self.send(json.dumps(dict(
             op='fdbk', from_op='open', user='__piper__', value=self.connection_id)))
-        #self._send_message('uid', self.username, self.connection_id)
         
         # Subscribe to broadcast messages
         multiplex.subscribe('system', self)
     
     def on_message(self, jsonic_message):
         ''' Dispatch the proper operation '''
-        # { op: (join | quit | stat | twit | post ...), user: <user-name>, value: <value> }
+        # { op: (join | quit | auth | twit ...), user: <username>, value: <value> }
         message = json.loads(jsonic_message)
         op = message.get('op', 'noop').lower()
         user = message.get('user', None)
