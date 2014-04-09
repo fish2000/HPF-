@@ -193,7 +193,9 @@ def download(f):
 
 def mobile_login(request):
     if request.user.is_authenticated():
-        return HttpResponseRedirect(reverse('hamptons:mobile', kwargs=dict(document_id='index.html')))
+        return HttpResponseRedirect(
+            reverse('hamptons:mobile',
+            kwargs=dict(document_id='index.html')))
     tmpl = get_template('hamptons/_login.html')
     return HttpResponse(tmpl.render(RequestContext(request)))
 
