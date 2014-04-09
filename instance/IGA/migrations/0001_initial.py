@@ -8,16 +8,15 @@ from django.db import models
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
-        # Adding model 'Twitterer'
-        # db.create_table(u'IGA_twitterer', (
-        #     (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-        #     ('createdate', self.gf('django.db.models.fields.DateTimeField')(default=datetime.datetime.now, auto_now_add=True, blank=True)),
-        #     ('modifydate', self.gf('django.db.models.fields.DateTimeField')(default=datetime.datetime.now, auto_now=True, blank=True)),
-        #     ('screen_name', self.gf('django.db.models.fields.CharField')(db_index=True, max_length=100, unique=True, null=True, blank=True)),
-        #     ('api_data', self.gf('IGA.modelfields.ElasticSearchData')(null=True, blank=True)),
-        # ))
-        # db.send_create_signal(u'IGA', ['Twitterer'])
-        pass
+        Adding model 'Twitterer'
+        db.create_table(u'IGA_twitterer', (
+            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('createdate', self.gf('django.db.models.fields.DateTimeField')(default=datetime.datetime.now, auto_now_add=True, blank=True)),
+            ('modifydate', self.gf('django.db.models.fields.DateTimeField')(default=datetime.datetime.now, auto_now=True, blank=True)),
+            ('screen_name', self.gf('django.db.models.fields.CharField')(db_index=True, max_length=100, unique=True, null=True, blank=True)),
+            ('api_data', self.gf('IGA.modelfields.ElasticSearchData')(null=True, blank=True)),
+        ))
+        db.send_create_signal(u'IGA', ['Twitterer'])
 
 
     def backwards(self, orm):
