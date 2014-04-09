@@ -115,6 +115,7 @@ AUTHENTICATION_BACKENDS = (
 
 ROOT_URLCONF = 'hpf.urls'
 WSGI_APPLICATION = 'hpf.wsgi.application'
+#AUTH_USER_MODEL = 'hamptons.Hamptonian'
 
 INSTALLED_APPS = (
     'django.contrib.auth',
