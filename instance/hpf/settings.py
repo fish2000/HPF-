@@ -192,7 +192,7 @@ LOGGING = {
             'handlers': ['console'],
             'propagate': False,
         },
-        'sentry.errors': {
+        'elasticsearch.trace': {
             'level': 'DEBUG',
             'handlers': ['console'],
             'propagate': False,

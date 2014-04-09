@@ -2,7 +2,7 @@
 from django.db import models
 from datetime import datetime
 from modeldict import ModelDict
-from IGA.conf import settings
+#from IGA.conf import settings
 from IGA import modelfields
 
 
@@ -38,9 +38,15 @@ class Twitterer(models.Model):
         null=True,
         blank=True)
     
+    @classmethod
+    def query(cls):
+        from elasticutils import S
+        return S().indexes(
+            cls._meta.app_label.lower()).doctypes(
+                cls._meta.model_name.lower())
+    
     def __repr__(self):
-        return "Twitterer(%s) <@%s>" % (
-            self.id or "??!?",
+        return u"@%s" % (
             self.screen_name or "???")
     
     def __str__(self):
