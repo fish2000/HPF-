@@ -139,6 +139,7 @@ INSTALLED_APPS = (
     'gunicorn',
     'imagekit',
     
+    'IGA',
     'hamptons',
     'sandpiper',
 )
