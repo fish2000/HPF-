@@ -30,6 +30,7 @@ bin/
 !local/bin/
 local/bin/redis-*
 local/bin/memcached
+local/bin/elasticsearch
 build/
 dist/
 etc/ipython/
