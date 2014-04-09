@@ -211,6 +211,8 @@
     };
 
     if (hashes !== undefined) {
+        /// Django-compatible string signatures
+        
         String.prototype.signature = (function (SHA1, undefined) {
             return function (key_secret, salt) {
                 var sha1 = new SHA1({ utf8: false, b64pad: ' ' }),
