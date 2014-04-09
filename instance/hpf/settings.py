@@ -140,6 +140,7 @@ INSTALLED_APPS = (
     'imagekit',
     
     'hamptons',
+    'sandpiper',
 )
 
 
