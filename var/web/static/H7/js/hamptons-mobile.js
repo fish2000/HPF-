@@ -68,31 +68,59 @@ sandpiper.onmessage = function (e) {
         day = dateparts[0],
         time = timeparts[0].split(':').slice(0, 2).join(':'),
         payload = JSON.parse(e.data),
-        op = payload['op'].lower(),
-        user = payload['user'].lower(),
-        value = payload['value'].lower(),
-        from_op = '';
+        op = payload['op'],
+        user = payload['user'],
+        value = payload['value'],
+        from_op = payload['from_op'];
     
     console.log("SANDPIPER: message received");
     //console.log("SANDPIPER: data = ", e.data);
     
+    console.log("OP: <<{0}>>".format(op));
+    console.log("USER: ", user);
+    console.log("VALUE: ", value);
+    console.log("FROM OP: ", from_op);
+    
     switch (op) {
         
-        /// OP: fdbk / "Feedback" / additional: [from_op]
+        case 'join':
+            /// Join notice. OP: join, VAL: (user for user in frampton)
+            /// Broadcast when a user joins a Frampton channel
+            /// (currently, produced for all users and channels)
+            break;
+        
+        case 'quit':
+            /// Quit notice. OP: quit, VAL: (user for user in frampton)
+            /// Broadcast when a user leaves (quits) a Frampton channel
+            /// (currently, produced for all users and channels)
+            break;
+        
+        case 'omfg':
+            /// Error message. OP: omfg, VAL: "Error Message Text"
+            /// Sent in response to an error condition (usually in leu
+            /// of a 'fdbk' message)
+            hamptons.alert(
+                "SANDPIPER FREAKOUT:\n{0}\n(from op: {1})".format(
+                    value, from_op));
+            break;
+        
         case 'fdbk':
-            console.log("OP: <<fdbk>>");
-            console.log("USER: ", user);
-            console.log("VALUE: ", value);
-            
-            from_op = payload['from_op'].lower();
+            /// Feedback. OP: fdbk, ARGS: [from_op]
+            /// Sandpiper's "ack" response to Frampton ops
             
             if (from_op === 'open') {
                 sandpiper.send(JSON.stringify({
                     op: 'auth',
                     user: window.SETTINGS['username'],
-                    value: 'YO DOGG',
+                    value: window.SETTINGS['signing_key'],
                 }));
             } else if (from_op === 'auth') {
+                
+            } else if (from_op === 'join') {
+                
+            } else if (from_op === 'quit') {
+                
+            } else if (from_op === 'twit') {
                 
             }
             

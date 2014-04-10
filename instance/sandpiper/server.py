@@ -7,10 +7,13 @@ from tornado.web import Application, RequestHandler
 from tornadoredis import Client as TornadoRedis
 from tornadoredis.pubsub import SockJSSubscriber
 from sockjs.tornado import SockJSRouter, conn
-
 #from django.core.signing import Signer
 
-# Async tornadoredis.Client instance (for channel subscriptions)
+from sandpiper.redpool import redpool as redis_sync
+from sandpiper.structs import RedisDict
+
+# Async tornadoredis client (for channel pub/sub ONLY)
+# use redpool for all other redis q's
 redis_async = TornadoRedis()
 multiplex = SockJSSubscriber(redis_async)
 
@@ -28,6 +31,9 @@ class MessageHandler(conn.SockJSConnection):
         'fdbk', 'omfg', 'noop', 
     )
     
+    def json(self, **kwblob):
+        return self.send(json.dumps(kwblob))
+    
     def _notify_join_or_quit(self, op='join'):
         system_endpoints = list(multiplex.subscribers['system'].keys())
         message = json.dumps({
@@ -40,13 +46,6 @@ class MessageHandler(conn.SockJSConnection):
         if system_endpoints:
             system_endpoints[0].broadcast(system_endpoints, message)
     
-    def _send_message(self, op, frampton, value):
-        self.send(json.dumps({
-            'op': op,
-            'value': value,
-            'val': frampton
-        }))
-    
     def _federate_frampton_message(self, frampton, message):
         redis_async.publish('frampton.%s' % frampton, json.dumps(dict(
             op='post', user=self.username, value=message)))
@@ -55,24 +54,32 @@ class MessageHandler(conn.SockJSConnection):
         multiplex.subscribe('frampton.%s' % frampton, self)
         self.framptons |= set([frampton])
         self._notify_join_or_quit('join')
-        self.send(json.dumps(dict(
-            op='fdbk', from_op='join', user=self.username, value=frampton)))
+        self.json(op='fdbk', from_op='join',
+            user=self.username, value=frampton)
     
     def _quit_frampton(self, frampton):
         multiplex.unsubscribe('frampton.%s' % frampton, self)
         self.framptons.remove(frampton)
         self._notify_join_or_quit('quit')
-        self.send(json.dumps(dict(
-            op='fdbk', from_op='quit', user=self.username, value=frampton)))
+        self.json(op='fdbk', from_op='quit',
+            user=self.username, value=frampton)
     
-    def _get_signing_key(self, username, session_token):
+    def _check_signing_key(self, username, signing_key):
         self.username = username
-        self.send(json.dumps(dict(
-            op='fdbk', from_op='auth', user=self.username, value=self.connection_id)))
+        self.stash = RedisDict(username, redis_sync)
+        if 'signing_key' not in self.stash:
+            self.json(op='omfg', from_op='auth',
+                user=self.username, value="NO STASHED SIGNING KEY")
+        if self.stash['signing_key'] != signing_key:
+            self.json(op='omfg', from_op='auth',
+                user=self.username, value="WTF KIND OF FAKENESS IS THIS [piper: %s, frampton: %s]" % (
+                    self.stash['signing_key'], signing_key))
+        self.json(op='fdbk', from_op='auth',
+            user=self.username, value=self.connection_id)
     
     def _error(self, error_message):
-        self.send(json.dumps(dict(
-            op='omfg', user='__piper__', value=error_message)))
+        self.json(op='omfg',
+            user='__piper__', value=error_message)
     
     def on_open(self, request):
         # Generate a user ID and name to demonstrate 'private' channels
@@ -80,8 +87,8 @@ class MessageHandler(conn.SockJSConnection):
         self.framptons = set()
         
         # Send it to user (TODO: generate signing key)
-        self.send(json.dumps(dict(
-            op='fdbk', from_op='open', user='__piper__', value=self.connection_id)))
+        self.json(op='fdbk', from_op='open',
+            user='__piper__', value=self.connection_id)
         
         # Subscribe to broadcast messages
         multiplex.subscribe('system', self)
@@ -105,7 +112,7 @@ class MessageHandler(conn.SockJSConnection):
             if value is None:
                 self._error("OP <AUTH> REQUIRES VALUE = 'SESSION KEY'")
                 return
-            self._get_signing_key(user, value)
+            self._check_signing_key(user, value)
         elif op == 'join':
             if value is None:
                 self._error("OP <JOIN> REQUIRES VALUE = 'FRAMPTON TO JOIN'")

@@ -37,7 +37,7 @@ class RedisDict(object):
     
     @property
     def dict(self):
-        return self.r.getall(self.u)
+        return self.r.hgetall(self.u)
     
     has_key = property(lambda self: self.dict.has_key)
     get = property(lambda self: self.dict.get)

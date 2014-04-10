@@ -2,7 +2,7 @@
 from hashlib import sha256
 from datetime import datetime
 from hamptons.conf import settings
-from hamptons.utils import RedisDict
+from sandpiper.structs import RedisDict
 from sandpiper.redpool import redpool as redis
 
 from django.db import models
@@ -91,8 +91,9 @@ class Hamptonian(AbstractUser):
     @property
     def signing_key(self):
         """ Get a salted SHA1 nonce of the user oAuth key """
-        token_secret = list(self.tokens).pop().token_secret
-        self.stash['signing_key'] = sha256(settings.HAMPTONS_SIGNING_SALT + token_secret).hexdigest()
+        if 'signing_key' not in self.stash:
+            token_secret = list(self.tokens).pop().token_secret
+            self.stash['signing_key'] = sha256(settings.HAMPTONS_SIGNING_SALT + token_secret).hexdigest()
         return self.stash['signing_key']
     
 

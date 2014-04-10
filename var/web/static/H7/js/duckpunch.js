@@ -2,9 +2,12 @@
 
 (function (underscore, hashes, document, undefined) {
     
-    var hex_decode_regex = /^(#|0?x|\\x|%)([0-9a-f]{1,16})/i,
+    var SIGNATURE_LENGTH = 27,
+        
+        hex_decode_regex = /^(#|0?x|\\x|%)([0-9a-f]{1,16})/i,
         thousands_regex = /(\d+)(\d{3})/,
         millions_regex = /(\d+)(\d{6})/,
+        
         magnitude_value = function (regex) {
             return function () {
                 var intpart = this.toString().split('.')[0];
@@ -13,6 +16,7 @@
                     : 0;
             };
         },
+        
         magnitude_format = function (func_name, suffix) {
             return function () {
                 return Number.prototype[func_name]
@@ -171,6 +175,15 @@
             return this.replace(chomper, '');
         };
     })(/(\s|\n|\r)+$/);
+    
+    String.prototype.rsplit = String.prototype.splitRight = (function (regex) {
+        return function () {
+            var delimiter = arguments[0] || regex,
+                limit = arguments[1] || 0;
+            delimiter = this.split(delimiter);
+            return limit ? delimiter.splice(-limit) : delimiter;
+        };
+    })(/s+/);
 
     String.prototype.isalpha = String.prototype.isAlpha = (function (regex) {
         return function () { return regex.test(this); };
@@ -236,11 +249,23 @@
                 key_salt = arguments[1] || 'django.core.signing.Signer',
                 sep = arguments[2] || ':',
                 salt = key_salt + 'signer',
-                split = this.split(sep),
+                split = this.rsplit(sep, 1),
                 orig = split[0], sig_test = split[1],
                 signature = orig.signature(key_secret, salt);
             return sig_test == signature ? orig : false;
         };
+        
+        String.prototype.voidsign = function () {
+            var key_secret = arguments[0] || 'YO DOGG',
+                key_salt = arguments[1] || 'django.core.signing.Signer',
+                sep = arguments[2] || ':',
+                salt = key_salt + 'signer',
+                split = this.rsplit(sep, 1),
+                orig = split[0], sig_test = split[1],
+                signature = orig.signature(key_secret, salt);
+            return sig_test == signature ? orig : false;
+        };
+        
     }
 
     Number.prototype.addcommas = Number.prototype.addCommas = (function (regex) {
