@@ -39,49 +39,47 @@
                         <div class="content-block-title">Who The Fuck Are You</div>
                         
                         <div class="content-block">
-                        <div class="list-block">
-                            <ul>
-                                <li>
-                                    <div class="item-content">
-                                        <div class="item-inner">
-                                            <div class="H7 go-wide turn-you-gray item-title label">Human Name</div>
-                                            <div class="item-input">
-                                                <input type="text" class="H7 turn-you-white"
-                                                    placeholder="Anonymous"
-                                                    value="{{ user.name }}">
+                            <div class="list-block">
+                                <ul>
+                                    <li style="position: relative; display: block; padding-top: 24px; padding-left: 16px;">
+                                        <img src="{{ user.avatar_url }}"
+                                            style="width: 90%; height: auto; border-radius: 45%; -webkit-border-radius: 45%; -moz-border-radius: 45%;">
+                                    </li>
+                                    <li>
+                                        <div class="item-content">
+                                            <div class="item-inner">
+                                                <div class="H7 go-wide turn-you-gray item-title label">Human Name</div>
+                                                <div class="item-input">
+                                                    <input type="text" class="H7 turn-you-white"
+                                                        placeholder="Anonymous"
+                                                        value="{{ user.name }}">
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="item-content">
-                                        <div class="item-inner">
-                                            <div class="H7 go-wide turn-you-gray item-title label">Screen Name</div>
-                                            <div class="item-input">
-                                                <input type="text" class="H7 turn-you-white"
-                                                    placeholder="Twitter ID"
-                                                    value="@{{ user.username }}">
+                                    </li>
+                                    <li>
+                                        <div class="item-content">
+                                            <div class="item-inner">
+                                                <div class="H7 go-wide turn-you-gray item-title label">Screen Name</div>
+                                                <div class="item-input">
+                                                    <input type="text" class="H7 turn-you-white"
+                                                        placeholder="Twitter ID"
+                                                        value="@{{ user.username }}">
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </li>
-                                <li>&nbsp;<li>
-                                <li>
-                                    <div class="buttons-row">
-                                        <a class="button" target="_blank"
-                                            href="http://twitter.com/{{ user.at_name }}">Twitter Profile</a>
-                                        <a class="button" target="_blank"
-                                            href="{% url 'socialaccount_connections' %}">HPF Account</a>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="buttons-row" style="padding-top: 16px;">
-                                        <a class="button" style="color: magenta; border-color: magenta;"
-                                            href="{% url 'account_logout' %}">Log Out</a>
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
+                                    </li>
+                                    <li>&nbsp;<li>
+                                    <li>
+                                        <div class="buttons-row">
+                                            <a class="button" target="_blank"
+                                                href="http://twitter.com/{{ user.at_name }}">Twitter Profile</a>
+                                            <a class="button" target="_blank"
+                                                href="{% url 'socialaccount_connections' %}">HPF Account</a>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
                         </div>
                         
                         <div class="content-block-title">Tags</div>
@@ -152,7 +150,21 @@
                                 </a></li>
                             </ul>
                         </div>
-                    </div>
+                        
+                        <div class="content-block">
+                            <div class="list-block">
+                                <ul>
+                                    <li>
+                                        <div class="buttons-row" style="padding-top: 16px;">
+                                            <a class="button" style="color: magenta; border-color: magenta;"
+                                                href="{% url 'account_logout' %}">Log Out</a>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                    </div><!-- right panel shit -->
 
                 </div><!-- page -->
             </div><!-- pages (plural) -->
@@ -167,7 +179,7 @@
             <div class="navbar">
                 <div class="navbar-inner">
                     <div class="left"></div>
-                    <div class="center sliding">THE HAMPTONS</div>
+                    <div class="center sliding">HPF&trade;</div>
                     <div class="right"><a href="chat.html" class="link">Framptonia &raquo;</a></div>
                 </div>
             </div>
@@ -178,7 +190,7 @@
                 <div data-page="index" class="page">
                     <!-- Scrollable page content-->
                     <div class="page-content">
-                        <div class="content-block-title">Welcome To Your Awesome App</div>
+                        <!--<div class="content-block-title">Welcome To Your Awesome App</div>
                         <div class="content-block">
                             <div class="content-block-inner">
                                 <p>Couple of worlds here because your app is so awesome ;)</p>
@@ -188,22 +200,23 @@
                                     is also here!</p>
                                 
                             </div>
-                        </div>
-                        <div class="content-block-title">What about simple navigation?</div>
+                        </div>-->
+                        
+                        <div class="content-block-title">FRAMPTONINGS IN SESSION</div>
                         
                         <div class="list-block">
                             <ul>
                                 <li><a href="chat.html" class="item-link">
                                     <div class="item-content">
                                         <div class="item-inner">
-                                            <div class="item-title">Framptonia</div>
+                                            <div class="item-title">#WAB2 <span style="color: lightgray;">Weekend At Bernie’s 2</span></div>
                                         </div>
                                     </div>
                                 </a></li>
                                 <li><a href="chat.html" class="item-link">
                                     <div class="item-content">
                                         <div class="item-inner">
-                                            <div class="item-title">Framptonia</div>
+                                            <div class="item-title">#JFKExpress <span style="color: lightgray;">Money Train</span></div>
                                         </div>
                                     </div>
                                 </a></li>

@@ -7,15 +7,29 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <title>THE HAMPTONS</title>
+    <style>
+        body {
+            background-image: -webkit-image-set(
+                url("{% static 'H7/img/hpf-splash-screen-7-no-signin-button.jpg' %}")       1x,
+                url("{% static 'H7/img/hpf-splash-screen-7-no-signin-button-2x.jpg' %}")    2x
+            );
+            background-repeat: no-repeat;
+            background-position-y: -34px;
+        }
+        #twitter-button-micromanager {
+            display: block;
+            position: absolute;
+            /*top: 735px;*/
+            /*left: 160px;*/
+            top: 330px;
+            left: 80px;
+        }
+    </style>
 </head>
 <body>
-    <div style="text-align: center;">
-        <h1>Hampton Peter Frampton</h1>
-        <p>Don't Touch The Sides!&trade;</p>
-        <p><a
-            href="/accounts/twitter/login/?process=login"><img
-            src="{% static 'H7/img/sign-in-with-twitter-gray.png' %}"
-            border="0"></a></p>
-    </div>
+    <div id="twitter-button-micromanager"><a
+        href="/accounts/twitter/login/?process=login"><img
+        src="{% static 'H7/img/sign-in-with-twitter-gray.png' %}"
+        border="0"></a></div>
 </body>
 </html>
