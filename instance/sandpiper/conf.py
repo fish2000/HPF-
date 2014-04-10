@@ -11,7 +11,6 @@ class SandpiperAppConf(AppConf):
     PORT = '9001'
     
     class Meta:
-
         prefix = 'SANDPIPER'
 
     def configure_base_hostname(self, value):

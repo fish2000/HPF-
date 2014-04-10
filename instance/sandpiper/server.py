@@ -3,62 +3,22 @@ from __future__ import print_function
 import uuid
 import json
 
-from tornado.web import Application
-import tornado.websocket
-import tornado.ioloop
-#import tornado.gen
-
-from redis import Redis
+from tornado.web import Application, RequestHandler
 from tornadoredis import Client as TornadoRedis
 from tornadoredis.pubsub import SockJSSubscriber
 from sockjs.tornado import SockJSRouter, conn
-from sockjs.tornado.transports import base
 
-# Synchronous Redis client instance (for publishing messages to channels)
-redis_sync = Redis()
+#from django.core.signing import Signer
+from hamptons.models import Hamptonian
 
 # Async tornadoredis.Client instance (for channel subscriptions)
 redis_async = TornadoRedis()
 multiplex = SockJSSubscriber(redis_async)
 
-
-class IndexPageHandler(tornado.web.RequestHandler):
+class IndexPageHandler(RequestHandler):
     def get(self):
-        self.render("template.html", title="PubSub + SockJS Demo")
-
-
-class SendMessageHandler(tornado.web.RequestHandler):
-
-    def _send_message(self, channel, msg_type, msg, user=None):
-        msg = {'type': msg_type,
-               'msg': msg,
-               'user': user}
-        msg = json.dumps(msg)
-        redis_sync.publish(channel, msg)
-
-    def post(self):
-        message = self.get_argument('message')
-        from_user = self.get_argument('from_user')
-        to_user = self.get_argument('to_user')
-        if to_user:
-            self._send_message('private.{}'.format(to_user),
-                               'pvt', message, from_user)
-            self._send_message('private.{}'.format(from_user),
-                               'tvp', message, to_user)
-        else:
-            self._send_message('system', 'msg', message, from_user)
-        self.set_header('Content-Type', 'text/plain')
-        self.write('sent: %s' % (message,))
-
-
-class DummyHandler(base.BaseTransportMixin):
-    name = 'sandpiper'
-    
-    def __init__(self, conn_info):
-        self.conn_info = conn_info
-    
-    def get_conn_info(self):
-        return self.conn_info
+        self.render("template.html",
+            title="PubSub + SockJS Demo")
 
 class MessageHandler(conn.SockJSConnection):
     """ SockJS connection handler. """
@@ -179,8 +139,7 @@ class MessageHandler(conn.SockJSConnection):
 
 
 urls = [
-    (r'/', IndexPageHandler),
-    (r'/send_message', SendMessageHandler)]
+    (r'/', IndexPageHandler)]
 urls += SockJSRouter(MessageHandler, '/sandpiper').urls
 
 application = Application(urls)
