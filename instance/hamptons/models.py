@@ -1,7 +1,8 @@
 
 from datetime import datetime
 from hamptons.conf import settings
-from hamptons.utils import RedisHash
+from hamptons.utils import RedisDict
+from sandpiper.redpool import redpool as redis
 
 from django.db import models
 from django.contrib.auth.models import AbstractUser
@@ -15,16 +16,23 @@ class Hamptonian(AbstractUser):
     
     def __init__(self, *args, **kwargs):
         super(Hamptonian, self).__init__(*args, **kwargs)
-        if self.username
+        if self.username:
+            self._stash = RedisDict(self.username, redis)
     
     @property
     def stash(self):
         """ Access to a per-user Redis hash """
-        return RedisHash
+        if hasattr(self, '_stash'):
+            return self._stash
+        if self.username:
+            self._stash = RedisDict(self.username, redis)
+            return self._stash
+        raise ValueError('Redis stash uninitialized!')
     
     @property
     def signing_key(self):
         """ Get a salted SHA1 nonce of the user oAuth key """
+        pass
 
 class Frampton(models.Model):
     """ A Frampton session """

@@ -9,7 +9,7 @@ from tornadoredis.pubsub import SockJSSubscriber
 from sockjs.tornado import SockJSRouter, conn
 
 #from django.core.signing import Signer
-from hamptons.models import Hamptonian
+#from hamptons.models import Hamptonian
 
 # Async tornadoredis.Client instance (for channel subscriptions)
 redis_async = TornadoRedis()
