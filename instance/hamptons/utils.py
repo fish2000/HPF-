@@ -1,4 +1,5 @@
 
+
 class RedisDict(object):
     """ Dict wrapper for a Redis set"""
     def __init__(self, username, redis):

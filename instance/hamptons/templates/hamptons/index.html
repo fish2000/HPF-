@@ -38,21 +38,50 @@
                         
                         <div class="content-block-title">Who The Fuck Are You</div>
                         
+                        <div class="content-block">
                         <div class="list-block">
                             <ul>
                                 <li>
                                     <div class="item-content">
                                         <div class="item-inner">
-                                            <div class="item-title label">Name</div>
+                                            <div class="H7 go-wide turn-you-gray item-title label">Human Name</div>
                                             <div class="item-input">
-                                                <input type="text"
-                                                    placeholder="Hamptonite ID"
-                                                    value="{{ user.username }}">
+                                                <input type="text" class="H7 turn-you-white"
+                                                    placeholder="Anonymous"
+                                                    value="{{ user.name }}">
                                             </div>
                                         </div>
                                     </div>
                                 </li>
+                                <li>
+                                    <div class="item-content">
+                                        <div class="item-inner">
+                                            <div class="H7 go-wide turn-you-gray item-title label">Screen Name</div>
+                                            <div class="item-input">
+                                                <input type="text" class="H7 turn-you-white"
+                                                    placeholder="Twitter ID"
+                                                    value="@{{ user.username }}">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>&nbsp;<li>
+                                <li>
+                                    <div class="buttons-row">
+                                        <a class="button" target="_blank"
+                                            href="http://twitter.com/{{ user.at_name }}">Twitter Profile</a>
+                                        <a class="button" target="_blank"
+                                            href="{% url 'socialaccount_connections' %}">HPF Account</a>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="buttons-row" style="padding-top: 16px;">
+                                        <a class="button" style="color: magenta; border-color: magenta;"
+                                            href="{% url 'account_logout' %}">Log Out</a>
+                                    </div>
+                                </li>
                             </ul>
+                        </div>
                         </div>
                         
                         <div class="content-block-title">Tags</div>
@@ -62,12 +91,11 @@
                                 <li>
                                     <div class="item-content">
                                         <div class="item-inner">
-                                            <div class="H7-label-seventy item-title label">#HPF (Always Included)</div>
-                                            <div class="H7-switch-no-width item-input">
+                                            <div class="H7 label-seventy item-title label">#HPF (Always Included)</div>
+                                            <div class="H7 switch-no-width item-input">
                                                 <label class="label-switch">
-                                                    <input type="checkbox" checked
-                                                        onclick="return false;"
-                                                        onchange="return false;">
+                                                    <!-- FIX THIS BULLSHIT -->
+                                                    <input type="checkbox" checked>
                                                 </label>
                                             </div>
                                         </div>
@@ -76,8 +104,8 @@
                                 <li>
                                     <div class="item-content">
                                         <div class="item-inner">
-                                            <div class="H7-label-seventy item-title label">#WAB2</div>
-                                            <div class="H7-switch-no-width item-input">
+                                            <div class="H7 label-seventy item-title label">#WAB2</div>
+                                            <div class="H7 switch-no-width item-input">
                                                 <label class="label-switch">
                                                     <input type="checkbox" checked>
                                                 </label>
@@ -91,10 +119,10 @@
                         <div class="content-block-title">Hamptonites</div>
                         
                         <div class="list-block media-list">
-                            <ul class="H7-no-edge">
+                            <ul class="H7 no-edge">
                                 <li><a href="#" class="item-link item-content">
                                     <div class="item-media"><img src="http://hhhhold.com/160/d/jpg?1" width="80"></div>
-                                    <div class="H7-no-edge item-inner">
+                                    <div class="H7 no-edge item-inner">
                                         <div class="item-title-row">
                                             <div class="item-title">Joey Zook</div>
                                             <div class="item-after">17</div>
@@ -104,7 +132,7 @@
                                 </a></li>
                                 <li><a href="#" class="item-link item-content">
                                     <div class="item-media"><img src="http://hhhhold.com/160/d/jpg?1" width="80"></div>
-                                    <div class="H7-no-edge item-inner">
+                                    <div class="H7 no-edge item-inner">
                                         <div class="item-title-row">
                                             <div class="item-title">Troy Turnwald</div>
                                             <div class="item-after">32</div>
@@ -114,7 +142,7 @@
                                 </a></li>
                                 <li><a href="#" class="item-link item-content">
                                     <div class="item-media"><img src="http://hhhhold.com/160/d/jpg?1" width="80"></div>
-                                    <div class="H7-no-edge item-inner">
+                                    <div class="H7 no-edge item-inner">
                                         <div class="item-title-row">
                                             <div class="item-title">SkyMall&trade; McGee</div>
                                             <div class="item-after">9</div>
@@ -206,7 +234,7 @@
                 <div class="list-block">
                     <ul>
                         <li class="align-top">
-                            <div class="H7-no-left-pad item-content">
+                            <div class="H7 no-left-pad item-content">
                                 <div class="item-inner">
                                     <div class="item-input">
                                         <form><textarea id="id_tweeter"
@@ -217,7 +245,7 @@
                         </li>
                         
                         <li class="align-top">
-                            <div class="H7-no-left-pad item-content">
+                            <div class="H7 no-left-pad item-content">
                                 <div class="item-inner">
                                     <div class="item-input">
                                         <a href="#" id="tweet-button"

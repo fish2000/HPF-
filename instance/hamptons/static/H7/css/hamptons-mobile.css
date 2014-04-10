@@ -52,21 +52,33 @@
 }
 
 /* MY SHIT */
-.H7-no-edge {
+.H7.no-edge {
     border-top: 1px solid transparent !important;
     border-bottom: 1px solid transparent !important;
 }
 
-.H7-no-left-pad {
+.H7.no-left-pad {
     padding-left: 0 !important;
 }
 
-.H7-switch-no-width {
+.H7.switch-no-width {
     width: 52px !important;
 }
 
-.H7-label-seventy {
+.H7.go-wide {
+    width: auto !important;
+}
+
+.H7.label-seventy {
     width: 70% !important;
+}
+
+.H7.turn-you-white {
+    color: rgba(245, 222, 222, 0.9) !important;
+}
+
+.H7.turn-you-gray {
+    color: rgba(245, 222, 222, 0.7) !important;
 }
 
 ::-webkit-input-placeholder { /* WebKit browsers */

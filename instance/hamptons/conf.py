@@ -7,8 +7,9 @@ class HamptonsAppConf(AppConf):
     CHARSET = 'UTF-8'
     BASE_HOSTNAME = 'localhost'
     
+    SIGNING_SALT = "THE INTERNET IS MAKING PEOPLE FUCK"
+    
     class Meta:
-
         prefix = 'HAMPTONS'
 
     def configure_base_hostname(self, value):

@@ -157,6 +157,7 @@ INSTALLED_APPS = (
     'django_admin_bootstrapped.bootstrap3',
     'django_admin_bootstrapped',
     'django.contrib.admin',
+    'django_extensions',
     
     'south',
     'gunicorn',
