@@ -11,13 +11,14 @@ NGINX_CONF_BACKUP = $(INSTANCE_TMP)/$(INSTANCE_NAME).nginx.conf.BACKUP
 NGINX_DEPLOY = etc/$(INSTANCE_NAME).nginx.conf
 SUPERVISOR_INIT = /etc/init.d/supervisord
 SUPERVISOR_INIT_DEPLOY = etc/$(INSTANCE_NAME).supervisord-init.sh
+REQUIREMENTS = etc/requirements.txt
 
 # javascript post-processing
 MAXJS = $(shell find instance -type f \( -iname "*.js" ! -name "*.min.js" ! -ipath "*libs*" \))
 MINJS = $(MAXJS:.js=.min.js)
 
 deploy: deploy-git
-deploy-all: deploy-git deploy-uwsgi deploy-nginx
+deploy-all: deploy-git deploy-uwsgi deploy-nginx deploy-pip
 
 # HEY GUYS!
 # GETTING MOST OF THIS 'DEPLOY' STUFF WORKING WILL TAKE SOME DOING ON YOUR PART.
@@ -35,6 +36,9 @@ deploy-uwsgi:
 deploy-nginx:
 		# NEEDS SUDOING
 		sudo cp $(NGINX_DEPLOY) $(NGINX_CONF) && sudo service nginx restart
+
+deploy-pip:
+		bin/pip install -U -r $(REQUIREMENTS)
 
 deploy-supervisor:
 		# NEEDS SUDOING
