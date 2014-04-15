@@ -182,10 +182,34 @@
     
     String.prototype.rsplit = String.prototype.splitRight = (function (regex) {
         return function () {
-            var delimiter = arguments[0] || regex,
-                limit = arguments[1] || 0;
-            delimiter = this.split(delimiter);
-            return limit ? delimiter.splice(-limit) : delimiter;
+            var limit = arguments[0] || 0,
+                sep = arguments[1] || regex;
+            split = this.split(sep);
+            return limit ? split.splice(-limit) : split;
+        };
+    })(/\s+/);
+    
+    String.prototype.rsplit_bleh = (function (regex) {
+        return function () {
+            var limit = arguments[0] || 0,
+                tmp = arguments[1] || regex,
+                sep = (typeof tmpsep === "object") ? tmp : new RegExp("(" + tmp + ")+"),
+                string = this.toString(),
+                result = sep.exec(string),
+                out = [], first_idx, last_idx;
+            while (result !== null) {
+                first_idx = result.index;
+                last_idx = result.lastIndex;
+                if (first_idx !== 0) {
+                    out.push(string.substring(0, first_idx));
+                    string = string.slice(first_idx);
+                }
+                out.push(result[0]);
+                string = string.slice(result[0].length);
+                result = sep.exec(string);
+            }
+            if (string !== '') { out.push(string); }
+            return out;
         };
     })(/\s+/);
 
