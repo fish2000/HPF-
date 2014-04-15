@@ -18,7 +18,7 @@ MAXJS = $(shell find instance -type f \( -iname "*.js" ! -name "*.min.js" ! -ipa
 MINJS = $(MAXJS:.js=.min.js)
 
 deploy: deploy-git
-deploy-all: deploy-git deploy-pip deploy-uwsgi deploy-nginx
+deploy-all: deploy-git deploy-uwsgi deploy-nginx
 
 # HEY GUYS!
 # GETTING MOST OF THIS 'DEPLOY' STUFF WORKING WILL TAKE SOME DOING ON YOUR PART.
