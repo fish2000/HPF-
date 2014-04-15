@@ -60,6 +60,8 @@ minify: $(MAXJS:.js=.min.js)
 		bin/python manage.py collectstatic --noinput
 
 js: clean-js minify
+static: clean-js minify
+		$(SUPERVISORCTL) restart $(INSTANCE_NAME):memcached $(INSTANCE_NAME):uwsgi
 
 # SOLR_SCHEMA gets assigned when `env_preinit` runs
 schema-generate: $(SOLR_STOPWORDS_COPY_TO)
@@ -95,5 +97,5 @@ clean-pyc:
 clean-all-pyc:
 		find $(VIRTUAL_ENV) -name \*.pyc -print -delete
 
-.PHONY: schema all distclean clean js minify
+.PHONY: schema all distclean clean js minify static
 
