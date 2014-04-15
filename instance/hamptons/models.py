@@ -1,4 +1,5 @@
 
+import random
 from hashlib import sha256
 from datetime import datetime
 from hamptons.conf import settings
@@ -6,15 +7,50 @@ from sandpiper.structs import RedisDict
 from sandpiper.redpool import redpool as redis
 
 from django.db import models
+from django.core.urlresolvers import reverse
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.exceptions import MultipleObjectsReturned
-from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.models import AbstractUser, UserManager
 from django.template.defaultfilters import slugify
 
 import autoslug
+from delegate import DelegateManager, delegate
 from durationfield.db.models.fields import duration
 
+reverse_kw = lambda name, **kw: reverse(name, kwargs=kw)
+
+
+class HamptonianQuerySet(models.query.QuerySet):
+    
+    def __init__(self, *args, **kwargs):
+        super(HamptonianQuerySet, self).__init__(*args, **kwargs)
+        random.seed()
+    
+    @delegate
+    def rnd(self):
+        """ Get a random model instance (useful in tests). """
+        return random.choice(self.all())
+    
+    @delegate
+    def for_username(self, username):
+        try:
+            return self.get(username__iexact=username)
+        except Hamptonian.DoesNotExist:
+            return None
+    
+
+class HamptonianManager(UserManager, DelegateManager):
+    __queryset__ = HamptonianQuerySet
+
+
 class Hamptonian(AbstractUser):
+    
+    class Meta:
+        verbose_name = "Hamptonian"
+        verbose_name_plural = "Hamptonians"
+        abstract = False
+    
+    objects = HamptonianManager()
     
     def __init__(self, *args, **kwargs):
         super(Hamptonian, self).__init__(*args, **kwargs)
@@ -96,7 +132,34 @@ class Hamptonian(AbstractUser):
                 settings.HAMPTONS_SIGNING_SALT +
                 token_secret).hexdigest()
         return self.stash['signing_key']
+
+
+class FramptonQuerySet(models.query.QuerySet):
     
+    def __init__(self, *args, **kwargs):
+        super(FramptonQuerySet, self).__init__(*args, **kwargs)
+        random.seed()
+    
+    @delegate
+    def rnd(self):
+        """ Get a random model instance (useful in tests). """
+        return random.choice(self.all())
+    
+    @delegate
+    def for_slug(self, slug):
+        try:
+            return self.get(slug__iexact=slug)
+        except Frampton.DoesNotExist:
+            return None
+    
+    @delegate
+    def as_list(self):
+        return list(frampton.as_dict() for frampton in self.all())
+    
+
+class FramptonManager(UserManager, DelegateManager):
+    __queryset__ = FramptonQuerySet
+
 
 class Frampton(models.Model):
     """ A Frampton session """
@@ -105,6 +168,8 @@ class Frampton(models.Model):
         verbose_name = "Frampton"
         verbose_name_plural = "Frampton Sessions"
         abstract = False
+    
+    objects = FramptonManager()
     
     createdate = models.DateTimeField('Created on',
         default=datetime.now,
@@ -128,7 +193,7 @@ class Frampton(models.Model):
         verbose_name="Participants",
         editable=True)
     
-    title = models.CharField(verbose_name="FFFFound Title",
+    title = models.CharField(verbose_name="Frampton Title",
         max_length=255,
         db_index=True,
         unique=False,
@@ -144,6 +209,7 @@ class Frampton(models.Model):
     
     state = models.PositiveSmallIntegerField(
         verbose_name="State",
+        default=0,
         null=False,
         blank=False,
         choices=(
@@ -162,4 +228,14 @@ class Frampton(models.Model):
         blank=True,
         null=True,
         editable=True)
+    
+    def as_dict(self):
+        return dict(
+            title=self.title,
+            slug=self.slug,
+            state=self.state,
+            startdate=self.startdate,
+            owner=self.owner.username,
+            url=reverse_kw('hamptons:frampton',
+                frampton=self.slug))
 

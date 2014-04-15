@@ -13,7 +13,7 @@ SUPERVISOR_INIT = /etc/init.d/supervisord
 SUPERVISOR_INIT_DEPLOY = etc/$(INSTANCE_NAME).supervisord-init.sh
 
 # javascript post-processing
-MAXJS = $(shell find instance -type f \( -iname "*.js" ! -name "*.min.js" \) )
+MAXJS = $(shell find instance -type f \( -iname "*.js" ! -name "*.min.js" ! -ipath "*libs*" \) )
 
 
 deploy: deploy-git
@@ -54,13 +54,13 @@ clean-js:
 		rm instance/hamptons/static/H7/js/hashes.min.js
 
 %.min.js: %.js
-		bin/uglifyjs -o $@ $<
+		rm $@ && bin/uglifyjs -o $@ $<
 
 minify: $(MAXJS:.js=.min.js)
 		bin/python manage.py collectstatic --noinput
 
-js: clean-js minify
-static: clean-js minify
+js: minify
+static: minify
 		$(SUPERVISORCTL) restart $(INSTANCE_NAME):memcached $(INSTANCE_NAME):uwsgi
 
 # SOLR_SCHEMA gets assigned when `env_preinit` runs

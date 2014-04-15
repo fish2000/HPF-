@@ -13,10 +13,12 @@ from django.core.urlresolvers import reverse
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.cache import never_cache
 from django.views.decorators.cache import cache_page
+from django.db.models import Q
 #from django.contrib.auth.decorators import login_required
 
 from hamptons.conf import settings
 from hamptons.problem import Problem
+from hamptons.models import Hamptonian
 
 class APIError(Problem):
     ''' A problem with an HTTP call to our JSON API
@@ -191,6 +193,36 @@ def download(f):
     # further decorate function before returning
     return cache_wrap(wrapper)
 
+participant_q = Q(state=0) | Q(state=3)
+
+@apicall
+def api_frampton_list(request, lister=""):
+    user = Hamptonian.objects.for_username(lister)
+    if not user:
+        raise APIError('fail', "User not found: %s" % lister)
+    return dict(
+        owns=user.framptons.exclude(state=3).as_list(),
+        participates_in=user.participating_in.exclude(participant_q).as_list())
+
+@apicall
+def api_frampton_create(request):
+    pass
+
+@apicall
+def api_frampton_invite(request, frampton_id="", invitee=""):
+    pass
+
+@apicall
+def api_frampton_uninvite(request, frampton_id="", uninvitee=""):
+    pass
+
+@apicall
+def api_frampton_start(request, frampton_id=""):
+    pass
+
+
+
+
 def mobile_login(request):
     if request.user.is_authenticated():
         return HttpResponseRedirect(
@@ -225,3 +257,4 @@ def mobile(request, document_id='index.html'):
                 settings=settings,
             ))),
         content_type="text/html")
+
