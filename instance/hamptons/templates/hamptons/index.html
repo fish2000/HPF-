@@ -180,7 +180,7 @@
                 <div class="navbar-inner">
                     <div class="left"></div>
                     <div class="center sliding">HPF&trade;</div>
-                    <div class="right"><a href="chat.html" class="link">Framptonia &raquo;</a></div>
+                    <div class="right"><a href="{% url 'hamptons:frampton' frampton='WAB2' %}" class="link">#WAB2 &raquo;</a></div>
                 </div>
             </div>
             
@@ -195,14 +195,14 @@
                         
                         <div class="list-block">
                             <ul>
-                                <li><a href="chat.html" class="item-link">
+                                <li><a href="{% url 'hamptons:frampton' frampton='WAB2' %}" class="item-link">
                                     <div class="item-content">
                                         <div class="item-inner">
                                             <div class="item-title">#WAB2 <span style="color: lightgray;">Weekend At Bernie’s 2</span></div>
                                         </div>
                                     </div>
                                 </a></li>
-                                <li><a href="chat.html" class="item-link">
+                                <li><a href="{% url 'hamptons:frampton' frampton='JFKExpress' %}" class="item-link">
                                     <div class="item-content">
                                         <div class="item-inner">
                                             <div class="item-title">#JFKExpress <span style="color: lightgray;">Money Train</span></div>
@@ -219,7 +219,7 @@
             <div class="toolbar">
                 <div class="toolbar-inner">
                     <a href="#" class="open-panel"><i class="icon icon-bars-blue"></i></a>
-                    <a href="chat.html"
+                    <a href="#"
                         id="tweeter-button"
                         data-popover=".popover-tweeter"
                         class="open-popover link"><i class="icon icon-form-comment"></i></a>
@@ -267,6 +267,7 @@
         window.SETTINGS = {};
         window.SETTINGS['username'] = '{{ user.username }}';
         window.SETTINGS['signing_key'] = '{{ user.signing_key }}';
+        window.SETTINGS['hostname'] = '{{ settings.BASE_HOSTNAME }}';
     </script>
     <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/sockjs-client/0.3.4/sockjs.min.js"></script>
     <script type="text/javascript" src="{% static 'H7/js/hashes.js' %}"></script>

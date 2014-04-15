@@ -199,6 +199,18 @@ def mobile_login(request):
     tmpl = get_template('hamptons/_login.html')
     return HttpResponse(tmpl.render(RequestContext(request)))
 
+def frampton(request, frampton='messages'):
+    if not request.user.is_authenticated():
+        return HttpResponseRedirect(reverse('hamptons:mobile_login'))
+    tmpl = get_template('hamptons/chat.html')
+    return HttpResponse(
+        tmpl.render(
+            RequestContext(request, dict(
+                frampton=frampton,
+                settings=settings,
+            ))),
+        content_type="text/html")
+
 def mobile(request, document_id='index.html'):
     """ Just barf out the F7 template """
     if not request.user.is_authenticated():
@@ -209,7 +221,7 @@ def mobile(request, document_id='index.html'):
         tmpl = get_template('hamptons/index.html')
     return HttpResponse(
         tmpl.render(
-            RequestContext(request,
-                dict()
-            )),
+            RequestContext(request, dict(
+                settings=settings,
+            ))),
         content_type="text/html")

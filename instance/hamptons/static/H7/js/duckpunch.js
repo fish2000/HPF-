@@ -209,8 +209,8 @@
         return function () {
             return this.trim()
                 .replace(edges, '$1')
-                .lower()
-                .replace(nonwords, '-')
+                .toLowerCase()
+                .replace(nonwords, arguments[0] || '-')
                 .toString();
         };
     })(/\W+/g, /^\W*(.*?)\W*?$/);
@@ -223,7 +223,7 @@
                 var sha1 = new SHA1({ utf8: false, b64pad: padding }),
                     key = sha1.raw(salt + key_secret),
                     hmac64 = sha1.setPad(padding).b64_hmac(key, this).chomp();
-                return hmac64;
+                return hmac64.replace('/', '_').replace('+', '-'); /// Replacements are a Django thing
             };
         })(hashes.SHA1, ' ');
         

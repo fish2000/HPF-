@@ -1,5 +1,6 @@
 from __future__ import print_function
 
+import sys
 import uuid
 import json
 
@@ -7,7 +8,7 @@ from tornado.web import Application, RequestHandler
 from tornadoredis import Client as TornadoRedis
 from tornadoredis.pubsub import SockJSSubscriber
 from sockjs.tornado import SockJSRouter, conn
-#from django.core.signing import Signer
+from django.core.signing import Signer, BadSignature, SignatureExpired
 
 from sandpiper.redpool import redpool as redis_sync
 from sandpiper.structs import RedisDict
@@ -47,8 +48,8 @@ class MessageHandler(conn.SockJSConnection):
             system_endpoints[0].broadcast(system_endpoints, message)
     
     def _federate_frampton_message(self, frampton, message):
-        redis_async.publish('frampton.%s' % frampton, json.dumps(dict(
-            op='post', user=self.username, value=message)))
+        redis_sync.publish('frampton.%s' % frampton, json.dumps(dict(
+            op='post', user=self.username, frampton=frampton, value=message)))
     
     def _join_frampton(self, frampton):
         multiplex.subscribe('frampton.%s' % frampton, self)
@@ -74,11 +75,26 @@ class MessageHandler(conn.SockJSConnection):
             self.json(op='omfg', from_op='auth',
                 user=self.username, value="WTF KIND OF FAKENESS IS THIS [piper: %s, frampton: %s]" % (
                     self.stash['signing_key'], signing_key))
+        self.signing_key = signing_key
+        self.signer = Signer(key=signing_key)
         self.json(op='fdbk', from_op='auth',
             user=self.username, value=self.connection_id)
     
+    def _unsign(self, signed_string):
+        out = False
+        if not hasattr(self, 'signer'):
+            return False
+        try:
+            out = self.signer.unsign(signed_string)
+        except BadSignature:
+            return False
+        except SignatureExpired:
+            return False
+        return out
+    
     def _error(self, error_message):
-        self.json(op='omfg',
+        print("ERROR > %s" % error_message, file=sys.stdout)
+        return self.json(op='omfg',
             user='__piper__', value=error_message)
     
     def on_open(self, request):
@@ -86,7 +102,7 @@ class MessageHandler(conn.SockJSConnection):
         self.connection_id = str(uuid.uuid4())[:5]
         self.framptons = set()
         
-        # Send it to user (TODO: generate signing key)
+        # Send it to the user
         self.json(op='fdbk', from_op='open',
             user='__piper__', value=self.connection_id)
         
@@ -96,47 +112,55 @@ class MessageHandler(conn.SockJSConnection):
     def on_message(self, jsonic_message):
         ''' Dispatch the proper operation '''
         # { op: (join | quit | auth | twit ...), user: <username>, value: <value> }
-        message = json.loads(jsonic_message)
+        try:
+            message = json.loads(jsonic_message)
+        except ValueError:
+            return self._error("BAD JSON MESSAGE: %s" % jsonic_message)
+        
         op = message.get('op', 'noop').lower()
         user = message.get('user', None)
         value = message.get('value', None)
         
         if op not in self.OPS:
-            self._error("UNKNOWN OP: %s" % op)
-            return
+            return self._error("UNKNOWN OP: %s" % op)
+        
         elif op == 'auth':
-            # value is Django session token, respond with signing key
+            # value is signing key, respond with current connection ID
             if user is None:
-                self._error("OP <AUTH> REQUIRES VALID USER NAME")
-                return
+                return self._error("OP <AUTH> REQUIRES VALID USER NAME")
             if value is None:
-                self._error("OP <AUTH> REQUIRES VALUE = 'SESSION KEY'")
-                return
+                return self._error("OP <AUTH> REQUIRES VALUE = 'SIGNING KEY'")
             self._check_signing_key(user, value)
+        
         elif op == 'join':
             if value is None:
-                self._error("OP <JOIN> REQUIRES VALUE = 'FRAMPTON TO JOIN'")
-                return
-            self._join_frampton(value)
+                return self._error("OP <JOIN> REQUIRES VALUE = 'FRAMPTON TO JOIN'")
+            unsigned_value = self._unsign(value)
+            if not unsigned_value:
+                return self._error("OP <JOIN> VALUE w/ BAD SIGNATURE = '%s'" % value)
+            self._join_frampton(unsigned_value)
+        
         elif op == 'quit':
             if value is None:
-                self._error("OP <QUIT> REQUIRES VALUE = 'FRAMPTON TO QUIT'")
-                return
-            self._quit_frampton(value)
+                return self._error("OP <QUIT> REQUIRES VALUE = 'FRAMPTON TO QUIT'")
+            unsigned_value = self._unsign(value)
+            if not unsigned_value:
+                return self._error("OP <QUIT> VALUE w/ BAD SIGNATURE = '%s'" % value)
+            self._quit_frampton(unsigned_value)
+        
         elif op == 'twit':
-            # TODO: cryptographically unsign message
             if user is None:
-                self._error("OP <TWIT> REQUIRES VALID USER NAME")
-                return
+                return self._error("OP <TWIT> REQUIRES VALID USER NAME")
             if value is None:
-                self._error("OP <QUIT> REQUIRES VALUE = 'TWITTER MESSAGE TO POST'")
-                return
+                return self._error("OP <TWIT> REQUIRES VALUE = 'TWITTER MESSAGE TO POST'")
             frampton = message.get('frampton', None)
             if frampton is None:
-                self._error("OP <QUIT> REQUIRES PARAM frampton = 'FRAMPTON TO WHICH TO TWEET'")
-                return
+                return self._error("OP <TWIT> REQUIRES PARAM frampton = 'FRAMPTON TO WHICH TO TWEET'")
+            unsigned_value = self._unsign(value)
+            if not unsigned_value:
+                return self._error("OP <TWIT> VALUE w/ BAD SIGNATURE = '%s'" % value)
             # TODO: queue for dispatch to Twitter API
-            self._federate_frampton_message(frampton, value)
+            self._federate_frampton_message(frampton, unsigned_value)
     
     def on_close(self):
         for frampton in self.framptons:
@@ -152,7 +176,6 @@ application = Application(urls)
 
 
 if __name__ == '__main__':
-    import sys
     from clint.textui import puts, colored
     from sandpiper.conf import settings
     

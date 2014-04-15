@@ -1,17 +1,38 @@
 
 // Initialize your app
-var sockURL = '//asio-otus.local:9001/sandpiper',
+var signing_key = window.SETTINGS['signing_key'],
+    username = window.SETTINGS['username'],
+    hostname = window.SETTINGS['hostname'] || 'localhost',
+    sockURL = '//{0}:9001/sandpiper'.format(hostname),
     sandpiper = new SockJS(sockURL),
-    framp = function (frampton) {
+    
+    framptize = function (frampton_name) {
         return function (message) {
             return {
                 op: 'twit',
-                user: window.SETTINGS['username'],
-                frampton: frampton,
-                value: message
+                user: username,
+                frampton: frampton_name,
+                value: message.sign(signing_key)
             };
         };
     },
+    framp = framptize('__wat__'),
+    
+    join = function (frampton_name) {
+        sandpiper.json({
+            op: 'join',
+            user: username,
+            value: frampton_name.sign(signing_key)
+        });
+    },
+    quit = function (frampton_name) {
+        sandpiper.json({
+            op: 'quit',
+            user: username,
+            value: frampton_name.sign(signing_key)
+        });
+    },
+    
     hamptons = new Framework7({
         
         onBeforePageInit: function (page) {},
@@ -31,30 +52,27 @@ $$$(document).on('pageInit', function (e) {
     var page = e.detail.page;
     
     console.log("pageInit: ", page.name);
+    $$$(".message, .messages-date").hide();
     
-    if (page.name === 'messages') {
-        //console.log("WE CHATTIN");
-        // $$$(".messages .message, .messages .messages-date").hide();
-        // var MESSAGES = $$$('#MESSAGES');
-        $$$(".messages .message, .messages .messages-date").hide();
-        //hamptons.initMessages();
+    if (page.name.startswith('frampton-')) {
+        window.frampton = page.name.replace(/^frampton-/, '');
+        console.log("WE CHATTIN: ", window.frampton);
+        join(window.frampton);
     }
 });
 
 $$$('#tweet-button').on('click', function (e) {
-    var message = $$$('#id_tweeter').val(),
-        date = new Date(),
-        dateparts = date.toDateString().split(' '),
-        timeparts = date.toTimeString().split(' '),
-        day = dateparts[0],
-        time = timeparts[0].split(':').slice(0, 2).join(':');
+    var message = $$$('#id_tweeter').val();
     
     console.log("TWEET: ", message);
-    sandpiper.send(message);
-    hamptons.addMessage({
-        text: message, day: day, time: time, type: 'sent'
-    });
+    sandpiper.json(framp(message));
 });
+
+sandpiper.json = function () {
+    return sandpiper.send(JSON.stringify(
+        arguments[0] || { op: 'noop' }
+    ));
+}
 
 sandpiper.onopen = function () {
     console.log("SANDPIPER: connected");
@@ -100,8 +118,17 @@ sandpiper.onmessage = function (e) {
             /// Sent in response to an error condition (usually in leu
             /// of a 'fdbk' message)
             hamptons.alert(
-                "SANDPIPER FREAKOUT:\n{0}\n(from op: {1})".format(
-                    value, from_op));
+                "SANDPIPER FREAKOUT:\n" + value);
+            break;
+        
+        case 'post':
+            /// Posted message. OP: post, VAL: "Post Message Text"
+            if (payload['frampton'] == window.frampton) {
+                hamptons.addMessage({
+                    text: value, day: day, time: time,
+                    type: user == username ? 'sent' : 'received'
+                });
+            }
             break;
         
         case 'fdbk':
@@ -109,19 +136,21 @@ sandpiper.onmessage = function (e) {
             /// Sandpiper's "ack" response to Frampton ops
             
             if (from_op === 'open') {
-                sandpiper.send(JSON.stringify({
+                sandpiper.json({
                     op: 'auth',
-                    user: window.SETTINGS['username'],
-                    value: window.SETTINGS['signing_key'],
-                }));
+                    user: username,
+                    value: signing_key,
+                });
             } else if (from_op === 'auth') {
-                
+                //join(window.frampton);
             } else if (from_op === 'join') {
-                
+                window.frampton = value;
+                framp = framptize(window.frampton);
             } else if (from_op === 'quit') {
-                
+                window.frampton = undefined;
+                framp = framptize('__wat__');
             } else if (from_op === 'twit') {
-                
+                /// NOOP!
             }
             
             break;
@@ -133,9 +162,6 @@ sandpiper.onmessage = function (e) {
             break;
     }
     
-    hamptons.addMessage({
-        text: message, day: day, time: time, type: 'received'
-    });
 };
 
 sandpiper.onclose = function () {

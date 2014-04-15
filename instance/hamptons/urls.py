@@ -9,6 +9,10 @@ app_patterns = patterns('',
         'hamptons.views.mobile_login',
         name='mobile_login'),
     
+    url(r'mobile/frampton/(?P<frampton>[\w\-\_\.]+)$',
+        'hamptons.views.frampton',
+        name='frampton'),
+    
     url(r'mobile/(?P<document_id>[\w\-\_\.]+)$',
         'hamptons.views.mobile',
         name='mobile'),
