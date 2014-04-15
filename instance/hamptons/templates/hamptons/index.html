@@ -9,6 +9,49 @@
     <title>THE HAMPTONS</title>
     <link rel="stylesheet" href="{% static 'H7/css/framework7.min.css' %}">
     <link rel="stylesheet" href="{% static 'H7/css/hamptons-mobile.css' %}">
+    
+    {% block templates %}
+        {% verbatim handlebars %}
+            <script class="template"
+                type="text/x-handlebars-template"
+                id="framptons-list">
+                
+                <div class="content-block-title">FRAMPTONINGS IN SESSION</div>
+                <div class="list-block">
+                    <ul>
+                        {{# each participates_in }}
+                        <li><a href="{{ this.url }}" class="item-link">
+                            <div class="item-content">
+                                <div class="item-inner">
+                                    <div class="item-title">{{ this.slug }}
+                                        <span style="color: lightgray;">{{ this.title }}</span></div>
+                                </div>
+                            </div>
+                        </a></li>
+                        {{/ each }}
+                    </ul>
+                </div>
+                
+                <div class="content-block-title">MY FRAMPTONS</div>
+                <div class="list-block">
+                    <ul>
+                        {{# each owns }}
+                        <li><a href="{{ this.url }}" class="item-link">
+                            <div class="item-content">
+                                <div class="item-inner">
+                                    <div class="item-title">{{ this.slug }}
+                                        <span style="color: lightgray;">{{ this.title }}</span></div>
+                                </div>
+                            </div>
+                        </a></li>
+                        {{/ each }}
+                    </ul>
+                </div>
+                    
+            </script>
+        {% endverbatim handlebars %}
+    {% endblock templates%}
+    
 </head>
 <body>
     <!-- Panels overlay-->
@@ -187,10 +230,10 @@
                 <!-- Page, data-page contains page name-->
                 <div data-page="index" class="page">
                     <!-- Scrollable page content-->
-                    <div class="page-content">
-                                                
-                        <div class="content-block-title">FRAMPTONINGS IN SESSION</div>
+                    <div class="page-content" id="framptons-list-box">
                         
+                        <!--
+                        <div class="content-block-title">FRAMPTONINGS IN SESSION</div>
                         <div class="list-block">
                             <ul>
                                 <li><a href="{% url 'hamptons:frampton' frampton='WAB2' %}" class="item-link">
@@ -209,6 +252,8 @@
                                 </a></li>
                             </ul>
                         </div>
+                        -->
+                        
                     </div>
                 </div>
             </div>
@@ -266,13 +311,19 @@
         window.SETTINGS['username'] = '{{ user.username }}';
         window.SETTINGS['signing_key'] = '{{ user.signing_key }}';
         window.SETTINGS['hostname'] = '{{ settings.BASE_HOSTNAME }}';
+        window.URLS = {};
+        window.URLS['api_frampton_list'] = "{% url 'hamptons:api_frampton_list' lister=user.username %}";
     </script>
     
+    <script type="text/javascript" src="{% static 'H7/js/libs/jquery-1.10.2.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'H7/js/libs/underscore-min.js' %}"></script>
     <script type="text/javascript" src="{% static 'H7/js/libs/sockjs.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'H7/js/libs/twitter-text.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'H7/js/libs/handlebars-v1.3.0.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'H7/js/libs/framework7.min.js' %}"></script>
     <script type="text/javascript" src="{% static 'H7/js/hashes.min.js' %}"></script>
     <script type="text/javascript" src="{% static 'H7/js/duckpunch.min.js' %}"></script>
-    <script type="text/javascript" src="{% static 'H7/js/libs/twitter-text.min.js' %}"></script>
-    <script type="text/javascript" src="{% static 'H7/js/libs/framework7.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'H7/js/jquery.apropos.min.js' %}"></script>
     <script type="text/javascript" src="{% static 'H7/js/hamptons-mobile.min.js' %}"></script>
     
     <div class="modal-overlay"></div>

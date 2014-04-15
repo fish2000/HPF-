@@ -1,5 +1,5 @@
 
-(function (SETTINGS, Framework7, SockJS) {
+(function (SETTINGS, URLS, Framework7, SockJS, $) {
 
     // Initialize your app
     var signing_key = SETTINGS['signing_key'],
@@ -176,5 +176,21 @@
     		window.scrollTo(0, 1); // Hide the address bar
     	}, 0);
     });
+    
+    
+    
+    $(document).ready(function () {
+        var $listbox = $('#framptons-list-box');
+        
+        console.log('>>>> YO DOGG <<<<');
+        $listbox
+            .apropos(URLS['api_frampton_list'])
+            .incorporate('#framptons-list');
+            
+        hamptons.showPreloader("Loading Framptons...");
+        $listbox.QED({}, function (opts, findings) {
+            hamptons.hidePreloader();
+        });
+    });
 
-})(window.SETTINGS, Framework7, SockJS);
+})(window.SETTINGS, window.URLS, Framework7, SockJS, jQuery);

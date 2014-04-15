@@ -5,6 +5,12 @@ from django.views.generic import RedirectView
 
 app_patterns = patterns('',
     
+    # API calls
+    url(r'api/frampton/list/(?P<lister>[\w\-\_\.]+)/?$',
+        'hamptons.views.api_frampton_list',
+        name='api_frampton_list'),
+    
+    # mobile-specific pages
     url(r'mobile/login/$',
         'hamptons.views.mobile_login',
         name='mobile_login'),

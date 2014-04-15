@@ -223,7 +223,7 @@
                 var sha1 = new SHA1({ utf8: false, b64pad: padding }),
                     key = sha1.raw(salt + key_secret),
                     hmac64 = sha1.setPad(padding).b64_hmac(key, this).chomp();
-                return hmac64.replace('/', '_').replace('+', '-'); /// Replacements are a Django thing
+                return hmac64.replace(/\//g, '_').replace(/\+/g, '-'); /// Replacements are a Django thing
             };
         })(hashes.SHA1, ' ');
         
