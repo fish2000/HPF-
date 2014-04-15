@@ -81,6 +81,10 @@
     color: rgba(245, 222, 222, 0.7) !important;
 }
 
+.message {
+    max-width: 85%;
+}
+
 ::-webkit-input-placeholder { /* WebKit browsers */
     color: orange;
     opacity: 0.6;
