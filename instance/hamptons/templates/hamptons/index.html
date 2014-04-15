@@ -269,11 +269,15 @@
         window.SETTINGS['signing_key'] = '{{ user.signing_key }}';
         window.SETTINGS['hostname'] = '{{ settings.BASE_HOSTNAME }}';
     </script>
-    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/sockjs-client/0.3.4/sockjs.min.js"></script>
-    <script type="text/javascript" src="{% static 'H7/js/hashes.js' %}"></script>
-    <script type="text/javascript" src="{% static 'H7/js/duckpunch.js' %}"></script>
-    <script type="text/javascript" src="{% static 'H7/js/framework7.js' %}"></script>
-    <script type="text/javascript" src="{% static 'H7/js/hamptons-mobile.js' %}"></script>
+    
+    <!--<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/sockjs-client/0.3.4/sockjs.min.js"></script>-->
+    
+    <script type="text/javascript" src="{% static 'H7/js/sockjs.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'H7/js/hashes.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'H7/js/duckpunch.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'H7/js/twitter-text.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'H7/js/framework7.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'H7/js/hamptons-mobile.min.js' %}"></script>
     
     <div class="modal-overlay"></div>
 </body>

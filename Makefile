@@ -12,6 +12,9 @@ NGINX_DEPLOY = etc/$(INSTANCE_NAME).nginx.conf
 SUPERVISOR_INIT = /etc/init.d/supervisord
 SUPERVISOR_INIT_DEPLOY = etc/$(INSTANCE_NAME).supervisord-init.sh
 
+# javascript post-processing
+MAXJS = $(shell find instance -type f \( -iname "*.js" ! -name "*.min.js" \) )
+
 
 deploy: deploy-git
 deploy-all: deploy-git deploy-uwsgi deploy-nginx
@@ -44,6 +47,19 @@ deploy-supervisor-init:
 		sudo update-rc.d supervisord defaults
 		# SUPERVISORD CAN NOW BE STARTED:
 		# sudo service supervisord start
+
+clean-js:
+		rm instance/hamptons/static/H7/js/duckpunch.min.js
+		rm instance/hamptons/static/H7/js/hamptons-mobile.min.js
+		rm instance/hamptons/static/H7/js/hashes.min.js
+
+%.min.js: %.js
+		bin/uglifyjs -o $@ $<
+
+minify: $(MAXJS:.js=.min.js)
+		bin/python manage.py collectstatic --noinput
+
+js: clean-js minify
 
 # SOLR_SCHEMA gets assigned when `env_preinit` runs
 schema-generate: $(SOLR_STOPWORDS_COPY_TO)
@@ -79,5 +95,5 @@ clean-pyc:
 clean-all-pyc:
 		find $(VIRTUAL_ENV) -name \*.pyc -print -delete
 
-.PHONY: schema all distclean clean
+.PHONY: schema all distclean clean js minify
 
