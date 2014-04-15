@@ -182,7 +182,7 @@
     $(document).ready(function () {
         var $listbox = $('#framptons-list-box');
         
-        console.log('>>>> YO DOGG <<<<');
+        //console.log('>>>> YO DOGG <<<<');
         $listbox
             .apropos(URLS['api_frampton_list'])
             .incorporate('#framptons-list');
