@@ -13,8 +13,8 @@ SUPERVISOR_INIT = /etc/init.d/supervisord
 SUPERVISOR_INIT_DEPLOY = etc/$(INSTANCE_NAME).supervisord-init.sh
 
 # javascript post-processing
-MAXJS = $(shell find instance -type f \( -iname "*.js" ! -name "*.min.js" ! -ipath "*libs*" \) )
-
+MAXJS = $(shell find instance -type f \( -iname "*.js" ! -name "*.min.js" ! -ipath "*libs*" \))
+MINJS = $(MAXJS:.js=.min.js)
 
 deploy: deploy-git
 deploy-all: deploy-git deploy-uwsgi deploy-nginx
@@ -49,18 +49,16 @@ deploy-supervisor-init:
 		# sudo service supervisord start
 
 clean-js:
-		rm instance/hamptons/static/H7/js/duckpunch.min.js
-		rm instance/hamptons/static/H7/js/hamptons-mobile.min.js
-		rm instance/hamptons/static/H7/js/hashes.min.js
+		rm -f $(MINJS)
 
 %.min.js: %.js
-		rm $@ && bin/uglifyjs -o $@ $<
+		bin/uglifyjs -o $@ $<
 
 minify: $(MAXJS:.js=.min.js)
 		bin/python manage.py collectstatic --noinput
 
-js: minify
-static: minify
+js: clean-js minify
+static: js
 		$(SUPERVISORCTL) restart $(INSTANCE_NAME):memcached $(INSTANCE_NAME):uwsgi
 
 # SOLR_SCHEMA gets assigned when `env_preinit` runs
