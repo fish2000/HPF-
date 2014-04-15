@@ -12,6 +12,7 @@ from django.contrib.auth.models import AbstractUser
 from django.template.defaultfilters import slugify
 
 import autoslug
+from durationfield.db.models.fields import duration
 
 class Hamptonian(AbstractUser):
     
@@ -152,3 +153,13 @@ class Frampton(models.Model):
             (3, 'Done'),
         ))
     
+    startdate = models.DateTimeField('Start Date/Time',
+        blank=True,
+        null=True,
+        editable=True)
+    
+    length = duration.DurationField('Length in Time',
+        blank=True,
+        null=True,
+        editable=True)
+
