@@ -3,7 +3,7 @@ TM_PYTHON = "/Users/fish/Praxa/HPF/bin/python"
 TM_PYTHONPATH = "/Users/fish/Praxa/HPF/local/lib/python2.7/site-packages:/Users/fish/Praxa/HPF/instance/hpf:/Users/fish/Praxa/HPF/instance:/Users/fish/Praxa/HPF/lib/python2.7/site-packages:/Users/fish/Praxa/HPF:."
 PYTHONPATH = "/Users/fish/Praxa/HPF/local/lib/python2.7/site-packages:/Users/fish/Praxa/HPF/instance/hpf:/Users/fish/Praxa/HPF/instance:/Users/fish/Praxa/HPF/lib/python2.7/site-packages:/Users/fish/Praxa/HPF:."
 
-DJANGO_SETTINGS_MODULE = "settings"
+DJANGO_SETTINGS_MODULE = "hpf.settings"
 
 
 [*.*]
