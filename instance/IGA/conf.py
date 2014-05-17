@@ -12,7 +12,6 @@ class IGAAppConf(AppConf):
     URL = 'http://localhost:9200/'
     
     class Meta:
-
         prefix = 'IGA'
 
     def configure_base_hostname(self, value):
