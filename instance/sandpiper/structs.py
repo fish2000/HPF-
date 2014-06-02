@@ -68,6 +68,7 @@ class RedisDict(object):
     @property
     def dict(self):
         """ Return a vanilla Python dict populated from the RedisDict """
+        # This method has no analogous method in the dict builtin
         return self.r.hgetall(self.u)
     
     # Methods aliased from the dict builtin
