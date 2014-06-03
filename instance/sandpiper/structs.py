@@ -6,7 +6,7 @@ VERBOSE = False
 dict_dict = dict.__dict__
 dict_keys = dict_dict.keys()
 
-class RedisDict(object):
+class BaseRedisDict(object):
     """ Dict wrapper for a Redis set """
     
     class __metaclass__(type):
@@ -99,16 +99,6 @@ class RedisDict(object):
     __le__ = property(lambda self: NotImplemented)
     __ge__ = property(lambda self: NotImplemented)
     
-    # Pickling helper methods
-    def __getstate__(self):
-        return self.u
-    
-    def __setstate__(self, state):
-        # THIS MAKES THE WHOLE ENTERPRISE UN-PORTABLE
-        from sandpiper.redpool import redpool as redis
-        self.u = state
-        self.r = redis
-    
     def copy(self):
         return RedisDict(self.u, self.r)
     
@@ -142,3 +132,16 @@ class RedisDict(object):
                 self[k] = v
         for k in F:
             self[k] = F[k]
+
+class RedisDict(BaseRedisDict):
+    
+    # Pickling helper methods
+    def __getstate__(self):
+        return self.u
+    
+    def __setstate__(self, state):
+        # THIS MAKES THE WHOLE ENTERPRISE UN-PORTABLE
+        from sandpiper.redpool import redpool as redis
+        self.u = state
+        self.r = redis
+    
