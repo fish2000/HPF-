@@ -87,8 +87,8 @@ class RedisDict(object):
     __ne__ = property(lambda self: self.dict.__ne__)
     __cmp__ = property(lambda self: self.dict.__cmp__)
     __format__ = property(lambda self: self.dict.__format__)
-    __reduce__ = property(lambda self: self.dict.__reduce__)
-    __reduce_ex__ = property(lambda self: self.dict.__reduce_ex__)
+    #__reduce__ = property(lambda self: self.dict.__reduce__)
+    #__reduce_ex__ = property(lambda self: self.dict.__reduce_ex__)
     __iter__ = property(lambda self: self.dict.__iter__)
     __repr__ = property(lambda self: self.dict.__repr__)
     __str__ = property(lambda self: self.dict.__str__)
@@ -98,6 +98,16 @@ class RedisDict(object):
     __gt__ = property(lambda self: NotImplemented)
     __le__ = property(lambda self: NotImplemented)
     __ge__ = property(lambda self: NotImplemented)
+    
+    # Pickling helper methods
+    def __getstate__(self):
+        return self.u
+    
+    def __setstate__(self, state):
+        # THIS MAKES THE WHOLE ENTERPRISE UN-PORTABLE
+        from sandpiper.redpool import redpool as redis
+        self.u = state
+        self.r = redis
     
     def copy(self):
         return RedisDict(self.u, self.r)
