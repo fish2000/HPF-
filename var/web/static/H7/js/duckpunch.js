@@ -180,7 +180,7 @@
         };
     })(/(\s|\n|\r)+$/);
     
-    String.prototype.rsplit_bleh = String.prototype.splitRight_bleh = (function (regex) {
+    String.prototype.rsplit = String.prototype.splitRight = (function (regex) {
         return function () {
             var limit = arguments[0] || 0,
                 sep = arguments[1] || regex;
@@ -189,7 +189,7 @@
         };
     })(/\s+/);
     
-    String.prototype.rsplit = (function (regex) {
+    String.prototype.rsplit_bleh = (function (regex) {
         return function () {
             var limit = arguments[0] || 0,
                 tmp = arguments[1] || regex,

@@ -14,7 +14,7 @@ SUPERVISOR_INIT_DEPLOY = etc/$(INSTANCE_NAME).supervisord-init.sh
 REQUIREMENTS = etc/requirements.txt
 
 # javascript post-processing
-MAXJS = $(shell find instance -type f \( -iname "*.js" ! -name "*.min.js" ! -ipath "*libs*" \))
+MAXJS = $(shell find instance -type f \( -iname "*.js" ! -name "*min.js" \))
 MINJS = $(MAXJS:.js=.min.js)
 
 deploy: deploy-git
