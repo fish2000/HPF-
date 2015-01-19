@@ -159,7 +159,7 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     'django_extensions',
     
-    'south',
+    #'south',
     'gunicorn',
     'imagekit',
     
