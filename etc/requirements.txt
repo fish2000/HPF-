@@ -1,5 +1,5 @@
 Cython==0.20.1
-Django==1.6.2
+Django==1.11.28
 FullContact.py==0.0.1
 Pillow==2.3.1
 Pygments==1.6
