@@ -2,7 +2,7 @@ Cython==0.20.1
 Django==1.6.2
 FullContact.py==0.0.1
 Pillow==2.3.1
-Pygments==1.6
+Pygments==2.7.4
 SQLAlchemy==0.9.4
 South==0.8.4
 argh==0.24.1
