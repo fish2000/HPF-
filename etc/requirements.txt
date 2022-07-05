@@ -75,7 +75,7 @@ tornado==3.2
 tornado-redis==2.4.16
 twitter==1.14.2
 uWSGI==2.0.3
-ujson==1.33
+ujson==5.4.0
 urllib3==1.8
 urlstring==2.4.0
 viron==0.4.8
